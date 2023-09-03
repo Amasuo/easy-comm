@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\HTTPHeader;
 use App\Helpers\GeneralHelper;
-use App\Http\Requests\StoreRequest;
-use App\Models\Store;
+use App\Http\Requests\DeliveryDriverRequest;
+use App\Models\DeliveryDriver;
 use Illuminate\Http\Request;
 
-class StoreController extends Controller
+class DeliveryDriverController extends Controller
 {
     public function __construct(Request $request) {
         parent::__construct($request);
-        $this->class = Store::class;
-        $this->translationName = 'store';
+        $this->class = DeliveryDriver::class;
+        $this->translationName = 'delivery-driver';
     }
-
-    public function store(StoreRequest $request)
+    
+    public function store(DeliveryDriverRequest $request)
     {
         $input = $request->validated();
         $item = new $this->class();
@@ -25,14 +24,14 @@ class StoreController extends Controller
         return $this->success(__('app.' . $this->translationName . '.created'), $item);
     }
 
-    public function update(StoreRequest $request)
+    public function update(DeliveryDriverRequest $request)
     {
         $this->validateId();
         $item = $this->class::findOrFail($this->modelId);
         $input = $request->validated();
-        if (array_key_exists('name', $input)) {
-            if (GeneralHelper::valueTakenForClassAttribute($this->class, 'name', $input['name'], $this->modelId)) {
-                return $this->failure(__('app.' . $this->translationName . '.name-taken'));
+        if (array_key_exists('phone', $input)) {
+            if (GeneralHelper::valueTakenForClassAttribute($this->class, 'phone', $input['phone'], $this->modelId)) {
+                return $this->failure(__('app.' . $this->translationName . '.phone-taken'));
             }
         }
         $item->fill($input);

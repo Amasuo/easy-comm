@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class DeliveryCompany extends Model
 {
@@ -14,4 +15,9 @@ class DeliveryCompany extends Model
         'name',
         'phone',
     ];
+
+    public function delviery_drivers(): HasMany
+    {
+        return $this->hasMany(DeliveryDriver::class, 'delivery_company_id');
+    }
 }

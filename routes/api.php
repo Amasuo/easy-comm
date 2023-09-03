@@ -33,4 +33,9 @@ Route::middleware('auth:api')->group(function () {
     Route::name('app.delivery-company')
     ->prefix('delivery-company')
     ->group(__DIR__ . '/api/delivery-company.php');
+
+    /** delivery driver routes */
+    Route::name('app.delivery-driver')
+    ->prefix('delivery-driver')
+    ->group(__DIR__ . '/api/delivery-driver.php');
 });
