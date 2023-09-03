@@ -43,4 +43,9 @@ Route::middleware('auth:api')->group(function () {
     Route::name('app.customer')
     ->prefix('customer')
     ->group(__DIR__ . '/api/customer.php');
+
+    /** product routes */
+    Route::name('app.product')
+    ->prefix('product')
+    ->group(__DIR__ . '/api/product.php');
 });
