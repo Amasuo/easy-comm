@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\GeneralHelper;
-use App\Http\Requests\StoreRequest;
-use App\Models\Store;
+use App\Http\Requests\CustomerRequest;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
-class StoreController extends Controller
+class CustomerController extends Controller
 {
     public function __construct(Request $request) {
         parent::__construct($request);
-        $this->class = Store::class;
-        $this->translationName = 'store';
+        $this->class = Customer::class;
+        $this->translationName = 'customer';
     }
-
-    public function store(StoreRequest $request)
+    
+    public function store(CustomerRequest $request)
     {
         $input = $request->validated();
         $item = new $this->class();
@@ -24,16 +23,11 @@ class StoreController extends Controller
         return $this->success(__('app.' . $this->translationName . '.created'), $item);
     }
 
-    public function update(StoreRequest $request)
+    public function update(CustomerRequest $request)
     {
         $this->validateId();
         $item = $this->class::findOrFail($this->modelId);
         $input = $request->validated();
-        if (array_key_exists('name', $input)) {
-            if (GeneralHelper::valueTakenForClassAttribute($this->class, 'name', $input['name'], $this->modelId)) {
-                return $this->failure(__('app.' . $this->translationName . '.name-taken'));
-            }
-        }
         $item->fill($input);
         $item->save();
         return $this->success(__('app.' . $this->translationName . '.updated'), $item);
