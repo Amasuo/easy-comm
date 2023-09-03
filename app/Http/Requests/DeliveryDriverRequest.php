@@ -28,12 +28,11 @@ class DeliveryDriverRequest extends FormRequest
                     'delivery_company_id' => 'required|exists:delivery_companies,id',
                     'firstname' => 'required|string',
                     'lastname' => 'required|string',
-                    'phone' => 'required|string|unique:delivery_drivers',
+                    'phone' => 'required|string',
                 ];
             }
             case 'PUT' :
             {
-                // the uniqueness is handled in the controller (because it doesn't accept its own value)
                 return [
                     'delivery_company_id' => 'required|exists:delivery_companies,id',
                     'firstname' => 'required|string',
