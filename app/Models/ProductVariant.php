@@ -25,6 +25,10 @@ class ProductVariant extends Model
         'custom_price_int'
     ];
 
+    protected $with = [
+        'product_option_values',
+    ];
+
     // example : stored as 1235 -> return 123.5 (dt)
     public function getCustomPriceAttribute()
     {

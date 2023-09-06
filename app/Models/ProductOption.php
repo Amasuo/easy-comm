@@ -17,6 +17,10 @@ class ProductOption extends Model
         'name',
     ];
 
+    protected $with = [
+        'product_option_values',
+    ];
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class, 'product_id');

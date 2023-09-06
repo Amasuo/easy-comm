@@ -34,4 +34,11 @@ class ProductController extends Controller
         $item->save();
         return $this->success(__('app.' . $this->translationName . '.updated'), $item);
     }
+
+    public function getProductVariants()
+    {
+        $this->validateId();
+        $item = $this->class::findOrFail($this->modelId);
+        return $this->success(__('app.' . $this->translationName . '.product-variants.get-all'), $item->product_variants);
+    }
 }

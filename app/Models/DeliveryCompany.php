@@ -16,6 +16,10 @@ class DeliveryCompany extends Model
         'phone',
     ];
 
+    protected $with = [
+        'delviery_drivers',
+    ];
+
     public function delviery_drivers(): HasMany
     {
         return $this->hasMany(DeliveryDriver::class, 'delivery_company_id');

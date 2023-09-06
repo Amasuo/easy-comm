@@ -15,6 +15,11 @@ class Store extends Model
         'name',
     ];
 
+    protected $with = [
+        'customers',
+        'products',
+    ];
+
     public function customers(): HasMany
     {
         return $this->hasMany(Customer::class, 'store_id');
@@ -22,6 +27,6 @@ class Store extends Model
 
     public function products(): HasMany
     {
-        return $this->hasMany(Product::class, 'product_id');
+        return $this->hasMany(Product::class, 'store_id');
     }
 }

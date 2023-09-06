@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductVariantRequest;
+use App\Http\Requests\ProductVariant\ProductVariantRequest;
+use App\Http\Requests\ProductVariant\StoreProductOptionValuesRequest;
 use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 
@@ -33,5 +34,15 @@ class ProductVariantController extends Controller
         $item->custom_price = $request['custom_price'] ?? $item->custom_price ?? null;
         $item->save();
         return $this->success(__('app.' . $this->translationName . '.updated'), $item);
+    }
+
+    public function storeProductOptionValues(StoreProductOptionValuesRequest $request)
+    {
+        $this->validateId();
+        $item = $this->class::findOrFail($this->modelId);
+        $ids = $request['ids'];
+        $item->product_option_values()->sync($ids);
+        $item->refresh();
+        return $this->success(__('app.' . $this->translationName . '.product-options-values.stored'), $item);
     }
 }

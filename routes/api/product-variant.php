@@ -21,3 +21,7 @@ Route::match(['put', 'patch'],'/{id}', [ProductVariantController::class, 'update
 Route::delete('/{id}', [ProductVariantController::class, 'delete'])
     ->where('id', '[0-9]+')
     ->name('app.product-variant.delete');
+
+Route::post('/{id}/product-option-values', [ProductVariantController::class, 'storeProductOptionValues'])
+    ->where('id', '[0-9]+')
+    ->name('app.product-variant.product-option-values.store');
