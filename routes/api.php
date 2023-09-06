@@ -48,4 +48,19 @@ Route::middleware('auth:api')->group(function () {
     Route::name('app.product')
     ->prefix('product')
     ->group(__DIR__ . '/api/product.php');
+
+    /** product option routes */
+    Route::name('app.product-option')
+    ->prefix('product-option')
+    ->group(__DIR__ . '/api/product-option.php');
+
+    /** product option value routes */
+    Route::name('app.product-option-value')
+    ->prefix('product-option-value')
+    ->group(__DIR__ . '/api/product-option-value.php');
+
+    /** product variant routes */
+    Route::name('app.product-variant')
+    ->prefix('product-variant')
+    ->group(__DIR__ . '/api/product-variant.php');
 });

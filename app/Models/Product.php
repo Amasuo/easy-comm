@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -34,5 +35,10 @@ class Product extends Model
     {
         $intValue = intval(round($value * 10), 0);
         $this->attributes['price_int'] = $intValue;
+    }
+    
+    public function product_options(): HasMany
+    {
+        return $this->hasMany(Product::class, 'product_id');
     }
 }

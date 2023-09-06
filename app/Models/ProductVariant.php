@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ProductVariant extends Model
 {
@@ -34,5 +36,15 @@ class ProductVariant extends Model
     {
         $intValue = intval(round($value * 10), 0);
         $this->attributes['custom_price_int'] = $intValue;
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    public function product_option_values(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductOptionValue::class, 'product_option_value_product_variant');
     }
 }
