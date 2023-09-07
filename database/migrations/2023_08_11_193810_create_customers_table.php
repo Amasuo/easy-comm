@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('store_id')->nullable()->constrained('stores');
             $table->string('firstname');
             $table->string('lastname');
-            $table->string('phone')->unique();
+            $table->string('phone');
             $table->string('state');
             $table->string('city');
             $table->string('street')->nullable();

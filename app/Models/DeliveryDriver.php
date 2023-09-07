@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class DeliveryDriver extends Model
 {
@@ -22,13 +23,18 @@ class DeliveryDriver extends Model
         'is_private',
     ];
 
+    public function getIsPrivateAttribute(): bool
+    {
+        return !is_null($this->delivery_company);
+    }
+
     public function delivery_company(): BelongsTo
     {
         return $this->belongsTo(DeliveryCompany::class, 'delivery_company_id');
     }
 
-    public function getIsPrivateAttribute(): bool
+    public function orders(): HasMany
     {
-        return !is_null($this->delivery_company);
+        return $this->hasMany(Order::class, 'delivery_driver_id');
     }
 }

@@ -63,4 +63,9 @@ Route::middleware('auth:api')->group(function () {
     Route::name('app.product-variant')
     ->prefix('product-variant')
     ->group(__DIR__ . '/api/product-variant.php');
+
+    /** order routes */
+    Route::name('app.order')
+    ->prefix('order')
+    ->group(__DIR__ . '/api/order.php');
 });

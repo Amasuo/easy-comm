@@ -19,7 +19,7 @@ class ProductController extends Controller
         $input = $request->validated();
         $item = new $this->class();
         $item->fill($input);
-        $item->price = $request['price'];
+        $item->price = $input['price'];
         $item->save();
         return $this->success(__('app.' . $this->translationName . '.created'), $item);
     }
@@ -30,7 +30,7 @@ class ProductController extends Controller
         $item = $this->class::findOrFail($this->modelId);
         $input = $request->validated();
         $item->fill($input);
-        $item->price = $request['price'] ?? $item->price;
+        $item->price = $input['price'] ?? $item->price;
         $item->save();
         return $this->success(__('app.' . $this->translationName . '.updated'), $item);
     }

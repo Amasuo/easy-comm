@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\ProductVariant;
 
+use App\Models\ProductOptionValue;
+use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProductOptionValuesRequest extends FormRequest
@@ -23,7 +25,12 @@ class StoreProductOptionValuesRequest extends FormRequest
     {
         return [
             'ids' => 'required',
-            'ids.*' => 'exists:product_option_values,id'
+            'ids.*' => [
+                function (string $attribute, mixed $value, Closure $fail) {
+                    if (!ProductOptionValue::find($value)) {
+                        $fail("{$value} is invalid.");
+                    }
+            },]
         ];
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\ProductVariant;
+use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CustomerRequest extends FormRequest
+class OrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,6 +28,9 @@ class CustomerRequest extends FormRequest
             {
                 return [
                     'store_id' => 'required|exists:stores,id',
+                    'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id',
+                    'customer_id' => 'sometimes|exists:customers,id',
+                    'product_variants' => 'required|array',
                     'firstname' => 'required|string',
                     'lastname' => 'required|string',
                     'phone' => 'required|string',
@@ -38,6 +43,9 @@ class CustomerRequest extends FormRequest
             {
                 return [
                     'store_id' => 'required|exists:stores,id',
+                    'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id',
+                    'customer_id' => 'sometimes|exists:customers,id',
+                    //'product_variants' => 'required|array',
                     'firstname' => 'required|string',
                     'lastname' => 'required|string',
                     'phone' => 'required|string',
@@ -50,6 +58,9 @@ class CustomerRequest extends FormRequest
             {
                 return [
                     'store_id' => 'sometimes|exists:stores,id',
+                    'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id',
+                    'customer_id' => 'sometimes|exists:customers,id',
+                    //'product_variants' => 'sometimes|array',
                     'firstname' => 'sometimes|string',
                     'lastname' => 'sometimes|string',
                     'phone' => 'sometimes|string',

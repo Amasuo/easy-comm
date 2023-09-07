@@ -51,4 +51,12 @@ class ProductVariant extends Model
     {
         return $this->belongsToMany(ProductOptionValue::class, 'product_option_value_product_variant');
     }
+
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class, 'order_product_variant')
+        ->withPivot([
+            'count'
+        ]);
+    }
 }
