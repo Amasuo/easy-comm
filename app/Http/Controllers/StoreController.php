@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\GeneralHelper;
+use App\Helpers\PermissionHelper;
 use App\Http\Requests\StoreRequest;
 use App\Models\Store;
 use Illuminate\Http\Request;
@@ -21,6 +22,9 @@ class StoreController extends Controller
         $item = new $this->class();
         $item->fill($input);
         $item->save();
+
+        PermissionHelper::createStoreRolesAndPermissions($item);
+
         return $this->success(__('app.' . $this->translationName . '.created'), $item);
     }
 
