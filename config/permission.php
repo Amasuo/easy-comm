@@ -159,45 +159,10 @@ return [
     ],
 
     'roles' => [
+        'admin' => 'admin',
         'store' => [
-            'admin' => [
-                'name' => 'store.[id].admin', // ex : store.43.admin
-                'permissions' => [
-                    [
-                        'name' => 'store.[id].store.[action]', // ex : store.43.store.update
-                        'actions' => ['read', 'update']
-                    ],
-                ],
-            ],
-            'simple' => [
-                'name' => 'store.[id].simple', // ex : store.43.simple
-                'permissions' => [
-                    [
-                        'name' => 'store.[id].customer.[action]',
-                        'actions' => ['read', 'create', 'update', 'delete']
-                    ],
-                    [
-                        'name' => 'store.[id].order.[action]',
-                        'actions' => ['read', 'create', 'update', 'delete']
-                    ],
-                    [
-                        'name' => 'store.[id].product.[action]',
-                        'actions' => ['read', 'create', 'update', 'delete']
-                    ],
-                    [
-                        'name' => 'store.[id].product-variant.[action]',
-                        'actions' => ['read', 'create', 'update', 'delete']
-                    ],
-                    [
-                        'name' => 'store.[id].product-option.[action]',
-                        'actions' => ['read', 'create', 'update', 'delete']
-                    ],
-                    [
-                        'name' => 'store.[id].product-option-value.[action]',
-                        'actions' => ['read', 'create', 'update', 'delete']
-                    ],
-                ],
-            ],
+            'admin' => 'store.[id].admin',
+            'simple' => 'store.[id].simple'
         ],
     ],
 ];

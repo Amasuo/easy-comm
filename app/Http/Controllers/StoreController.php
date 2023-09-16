@@ -23,7 +23,7 @@ class StoreController extends Controller
         $item->fill($input);
         $item->save();
 
-        PermissionHelper::createStoreRolesAndPermissions($item);
+        PermissionHelper::createStoreRoles($item);
 
         return $this->success(__('app.' . $this->translationName . '.created'), $item);
     }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Helpers\PermissionHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -45,4 +46,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function isAdmin()
+    {
+        return $this->hasRole('admin');
+    }
+
+    public function isStoreAdmin(Store $store)
+    {
+        return $this->hasRole(PermissionHelper::getAdminRoleForStore($store));
+    }
+
+    public function isStoreSimple(Store $store)
+    {
+        return $this->hasRole(PermissionHelper::getSimpleRoleForStore($store));
+    }
 }

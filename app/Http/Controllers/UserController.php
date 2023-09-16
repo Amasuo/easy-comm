@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -43,5 +44,31 @@ class UserController extends Controller
         }
         $item->save();
         return $this->success(__('app.' . $this->translationName . '.updated'), $item);
+    }
+
+    public function assignRole(Request $request)
+    {
+        $this->validateId();
+        $user = $this->class::findOrFail($this->modelId);
+
+        $roleId = $request->roleId;
+        $role = Role::findOrFail($roleId);
+
+        $user->assignRole($role);
+
+        return $this->success(__('app.' . $this->translationName . '.role.assigned'), $user);
+    }
+
+    public function removeRole(Request $request)
+    {
+        $this->validateId();
+        $user = $this->class::findOrFail($this->modelId);
+
+        $roleId = $request->roleId;
+        $role = Role::findOrFail($roleId);
+
+        $user->removeRole($role);
+        
+        return $this->success(__('app.' . $this->translationName . '.role.removed'), $user);
     }
 }

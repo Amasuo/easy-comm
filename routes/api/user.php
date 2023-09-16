@@ -21,3 +21,13 @@ Route::match(['put', 'patch'],'/{id}', [UserController::class, 'update'])
 Route::delete('/{id}', [UserController::class, 'delete'])
     ->where('id', '[0-9]+')
     ->name('app.user.delete');
+    
+Route::post('/{id}/role/{roleId}', [UserController::class, 'assignRole'])
+    ->where('id', '[0-9]+')
+    ->where('roleId', '[0-9]+')
+    ->name('app.user.role.assign');
+
+Route::delete('/{id}/role/{roleId}', [UserController::class, 'removeRole'])
+    ->where('id', '[0-9]+')
+    ->where('roleId', '[0-9]+')
+    ->name('app.user.role.remove');
