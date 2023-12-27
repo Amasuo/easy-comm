@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class ProductRequest extends FormRequest
 {
@@ -25,25 +26,31 @@ class ProductRequest extends FormRequest
             case 'POST' :
             {
                 return [
-                    'store_id' => 'required|exists:stores,id',
+                    'store_id' => 'sometimes|exists:stores,id|nullable',
                     'name' => 'required|string',
                     'price' => 'required|numeric',
+                    'image' => 'sometimes',
+                    'product_options' => 'sometimes',
                 ];
             }
             case 'PUT' :
             {
                 return [
-                    'store_id' => 'required|exists:stores,id',
+                    'store_id' => 'sometimes|exists:stores,id|nullable',
                     'name' => 'required|string',
                     'price' => 'required|numeric',
+                    'image' => 'sometimes',
+                    'product_options' => 'sometimes',
                 ];
             }
             case 'PATCH' :
             {
                 return [
-                    'store_id' => 'sometimes|exists:stores,id',
+                    'store_id' => 'sometimes|exists:stores,id|nullable',
                     'name' => 'sometimes|string',
                     'price' => 'sometimes|numeric',
+                    'image' => 'sometimes',
+                    'product_options' => 'sometimes',
                 ];
             }
             default :

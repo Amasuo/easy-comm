@@ -11,13 +11,12 @@ class Store extends Model
     use HasFactory;
     protected $table = 'stores';
 
-    protected $fillable = [
+    const SEARCHABLE = [
         'name',
     ];
 
-    protected $with = [
-        'customers',
-        'products',
+    protected $fillable = [
+        'name',
     ];
 
     public function customers(): HasMany

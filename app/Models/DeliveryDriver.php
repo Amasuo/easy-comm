@@ -12,8 +12,20 @@ class DeliveryDriver extends Model
     use HasFactory;
     protected $table = 'delivery_drivers';
 
+    const SEARCHABLE = [
+        'firstname',
+        'lastname',
+        'phone',
+    ];
+
+    protected $with = [
+        'delivery_company',
+        'store',
+    ];
+
     protected $fillable = [
         'delivery_company_id',
+        'store_id',
         'firstname',
         'lastname',
         'phone',
@@ -31,6 +43,11 @@ class DeliveryDriver extends Model
     public function delivery_company(): BelongsTo
     {
         return $this->belongsTo(DeliveryCompany::class, 'delivery_company_id');
+    }
+
+    public function store(): BelongsTo
+    {
+        return $this->belongsTo(Store::class, 'store_id');
     }
 
     public function orders(): HasMany

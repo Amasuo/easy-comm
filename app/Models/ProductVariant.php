@@ -6,28 +6,70 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class ProductVariant extends Model
+class ProductVariant extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
     protected $table = 'product_variants';
 
+    protected $with = [
+        'product',
+    ];
     protected $fillable = [
         'product_id',
         'stock',
     ];
 
     protected $appends = [
-        'custom_price'
+        'price',
+        'image',
     ];
 
     protected $hidden = [
-        'custom_price_int'
+        'custom_price_int',
+        'media',
     ];
 
-    protected $with = [
-        'product_option_values',
-    ];
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('main')
+            ->singleFile();
+
+        /*$this->addMediaCollection('preview')
+            ->singleFile();*/
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('webp')
+            ->format('webp')
+            ->nonQueued()
+            ->performOnCollections('main');
+
+        /*$this->addMediaConversion('webp')
+            ->crop(Manipulations::CROP_CENTER, 300, 300)
+            ->format('webp')
+            ->nonQueued()
+            ->performOnCollections('preview');*/
+    }
+
+    public function getImageAttribute()
+    {
+        return $this->getFirstMedia('main') ? $this->getFirstMedia('main')->original_url : $this->product->image;
+    }
+
+    public function getPriceAttribute()
+    {
+        return $this->custom_price ?? $this->product->price;
+    }
+
+    public function setPriceAttribute($value)
+    {
+        return $this->setCustomPriceAttribute($value);
+    }
 
     // example : stored as 1235 -> return 123.5 (dt)
     public function getCustomPriceAttribute()

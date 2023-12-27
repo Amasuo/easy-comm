@@ -6,6 +6,7 @@ use App\Http\Requests\ProductVariant\ProductVariantRequest;
 use App\Http\Requests\ProductVariant\StoreProductOptionValuesRequest;
 use App\Models\ProductVariant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ProductVariantController extends Controller
 {
@@ -20,8 +21,13 @@ class ProductVariantController extends Controller
         $input = $request->validated();
         $item = new $this->class();
         $item->fill($input);
-        $item->custom_price = $input['custom_price'] ?? null;
+        $item->price = $input['price'] ?? null;
         $item->save();
+        Log::debug('aaa');
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            Log::debug('bbb');
+            $item->addMediaFromRequest('image')->toMediaCollection('main');
+        }
         return $this->success(__('app.' . $this->translationName . '.created'), $item);
     }
 
@@ -31,8 +37,15 @@ class ProductVariantController extends Controller
         $item = $this->class::findOrFail($this->modelId);
         $input = $request->validated();
         $item->fill($input);
-        $item->custom_price = $input['custom_price'] ?? $item->custom_price;
+        $item->price = $input['price'] ?? null;
         $item->save();
+        if ($request->hasFile('image')) {
+            $mediaItems = $item->getMedia("*");
+            foreach ($mediaItems as $mediaItem) {
+                $mediaItem->delete();
+            }
+            $item->addMediaFromRequest('image')->toMediaCollection('main');
+        }
         return $this->success(__('app.' . $this->translationName . '.updated'), $item);
     }
 

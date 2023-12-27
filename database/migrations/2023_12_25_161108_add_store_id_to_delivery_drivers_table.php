@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->softDeletes()->after('updated_at');
+        Schema::table('delivery_drivers', function (Blueprint $table) {
+            $table->foreignId('store_id')->after('delivery_company_id')->nullable()->constrained('stores')->onDelete('cascade');
         });
     }
 
@@ -21,8 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropSoftDeletes();
+        Schema::table('delivery_drivers', function (Blueprint $table) {
+            $table->dropForeign(['store_id']);
+            $table->dropColumn('store_id');
         });
     }
 };

@@ -25,7 +25,8 @@ class DeliveryDriverRequest extends FormRequest
             case 'POST' :
             {
                 return [
-                    'delivery_company_id' => 'required|exists:delivery_companies,id',
+                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id|nullable',
+                    'store_id' => 'sometimes|exists:stores,id|nullable',
                     'firstname' => 'required|string',
                     'lastname' => 'required|string',
                     'phone' => 'required|string',
@@ -34,7 +35,8 @@ class DeliveryDriverRequest extends FormRequest
             case 'PUT' :
             {
                 return [
-                    'delivery_company_id' => 'required|exists:delivery_companies,id',
+                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id|nullable',
+                    'store_id' => 'sometimes|exists:stores,id|nullable',
                     'firstname' => 'required|string',
                     'lastname' => 'required|string',
                     'phone' => 'required|string',
@@ -43,7 +45,8 @@ class DeliveryDriverRequest extends FormRequest
             case 'PATCH' :
             {
                 return [
-                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id',
+                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id|nullable',
+                    'store_id' => 'sometimes|exists:stores,id|nullable',
                     'firstname' => 'sometimes|string',
                     'lastname' => 'sometimes|string',
                     'phone' => 'sometimes|string',

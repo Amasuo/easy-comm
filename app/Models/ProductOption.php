@@ -12,6 +12,10 @@ class ProductOption extends Model
     use HasFactory;
     protected $table = 'product_options';
 
+    const SEARCHABLE = [
+        'name',
+    ];
+
     protected $fillable = [
         'product_id',
         'name',

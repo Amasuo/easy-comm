@@ -9,15 +9,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class DeliveryCompany extends Model
 {
     use HasFactory;
+
+    const SEARCHABLE = [
+        'name',
+    ];
+
     protected $table = 'delivery_companies';
 
     protected $fillable = [
         'name',
         'phone',
-    ];
-
-    protected $with = [
-        'delviery_drivers',
     ];
 
     public function delviery_drivers(): HasMany

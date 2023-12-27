@@ -25,29 +25,41 @@ class UserRequest extends FormRequest
             case 'POST' :
             {
                 return [
+                    'store_id'=> 'sometimes',
+                    'role' => 'sometimes',
                     'firstname' => 'required|string',
                     'lastname' => 'required|string',
                     'email' => 'required|email|unique:users',
                     'password' => 'required|min:8',
+                    'phone' => 'required|min:8',
+                    'is_active' => 'required|boolean',
                 ];
             }
             case 'PUT' :
             {
-                // the uniqueness is hqndled in the controller (because it doesn't accept its own value)
+                // the uniqueness is handled in the controller (because it doesn't accept its own value)
                 return [
+                    'store_id'=> 'sometimes',
+                    'role' => 'sometimes',
                     'firstname' => 'required|string',
                     'lastname' => 'required|string',
                     'email' => 'required|email',
                     'password' => 'sometimes|min:8',
+                    'phone' => 'required|min:8',
+                    'is_active' => 'required|boolean',
                 ];
             }
             case 'PATCH' :
             {
                 return [
+                    'store_id'=> 'sometimes',
+                    'role' => 'sometimes',
                     'firstname' => 'sometimes|string',
                     'lastname' => 'sometimes|string',
                     'email' => 'sometimes||email',
                     'password' => 'sometimes|min:8',
+                    'phone' => 'sometimes|min:8',
+                    'is_active' => 'sometimes|boolean',
                 ];
             }
             default :

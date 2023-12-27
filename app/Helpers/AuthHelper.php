@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\RegisterAttempt;
 use App\Models\User;
 
 class AuthHelper
@@ -12,8 +13,14 @@ class AuthHelper
             'firstname' => $input['firstname'],
             'lastname' => $input['lastname'],
             'email' => $input['email'],
-            'password' => bcrypt($input['password'])
+            'password' => bcrypt($input['password']),
+            'is_active'=> false,
         ]);
+
+        $registerAttempt = new RegisterAttempt();
+        $registerAttempt->user_id = $user->id;
+        $registerAttempt->body = json_encode($input);
+        $registerAttempt->save();
 
         $access_token = $user->createToken('access-token')->accessToken;
         return self::generateAuthResult($access_token, $user);

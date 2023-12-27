@@ -2,6 +2,16 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\Permissions\CheckAdminMiddleware;
+use App\Http\Middleware\Permissions\CheckStoreAdminMiddleware;
+use App\Http\Middleware\Permissions\CheckUserAndCustomerRelatedMiddleware;
+use App\Http\Middleware\Permissions\CheckUserAndOrderRelatedMiddleware;
+use App\Http\Middleware\Permissions\CheckUserAndProductOptionRelatedMiddleware;
+use App\Http\Middleware\Permissions\CheckUserAndProductOptionValueRelatedMiddleware;
+use App\Http\Middleware\Permissions\CheckUserAndProductRelatedMiddleware;
+use App\Http\Middleware\Permissions\CheckUserAndProductVariantRelatedMiddleware;
+use App\Http\Middleware\Permissions\CheckUserAndStoreRelatedMiddleware;
+use App\Http\Middleware\Permissions\CheckUserAndUserRelatedMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -64,5 +74,15 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'check-admin' => CheckAdminMiddleware::class,
+        'check-store-admin' => CheckStoreAdminMiddleware::class,
+        'check-user-customer-related' => CheckUserAndCustomerRelatedMiddleware::class,
+        'check-user-order-related' => CheckUserAndOrderRelatedMiddleware::class,
+        'check-user-product-option-related' => CheckUserAndProductOptionRelatedMiddleware::class,
+        'check-user-product-option-value-related' => CheckUserAndProductOptionValueRelatedMiddleware::class,
+        'check-user-product-related' => CheckUserAndProductRelatedMiddleware::class,
+        'check-user-product-variant-related' => CheckUserAndProductVariantRelatedMiddleware::class,
+        'check-user-store-related' => CheckUserAndStoreRelatedMiddleware::class,
+        'check-user-user-related'=> CheckUserAndUserRelatedMiddleware::class,
     ];
 }

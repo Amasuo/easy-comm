@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\HTTPHeader;
-use App\Helpers\GeneralHelper;
+use App\Enums\RoleName;
 use App\Traits\ApiResponse;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -34,7 +34,14 @@ class Controller extends BaseController
 
     public function getAll(Request $request)
     {
-        $data = $this->class::all();
+        $data = $this->class::query();
+        $searchQuery = $request->query('search');
+        if ($searchQuery && $this->class::SEARCHABLE) {
+            foreach ($this->class::SEARCHABLE as $searchableAttribute) {
+                $data = $data->orWhere($searchableAttribute, 'like', '%' . $searchQuery . '%');
+            }
+        }
+        $data = $data->paginate(10);
         if (!$data) {
             return $this->failure(__('app.' . $this->translationName . '.model-not-found'), HTTPHeader::NOT_FOUND);
         }
@@ -59,5 +66,14 @@ class Controller extends BaseController
         $item = $this->class::findOrFail($this->modelId);
         $item->delete();
         return $this->success(__('app.' . $this->translationName . '.deleted'), $item);
+    }
+
+    public function getRoleNames(Request $request) {
+        $user = auth()->user();
+        $data = RoleName::toArray();
+        if (!$user->isAdmin()) {
+            $data = array_values(array_diff($data, [RoleName::ADMIN]));
+        }
+        return $this->success(__('app.role.get-all'), $data);
     }
 }

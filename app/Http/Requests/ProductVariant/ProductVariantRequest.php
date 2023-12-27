@@ -27,7 +27,8 @@ class ProductVariantRequest extends FormRequest
                 return [
                     'product_id' => 'required|exists:products,id',
                     'stock' => 'required|numeric',
-                    'custom_price' => 'sometimes|numeric',
+                    'price' => 'sometimes|numeric|nullable',
+                    'image' => 'sometimes',
                 ];
             }
             case 'PUT' :
@@ -35,7 +36,8 @@ class ProductVariantRequest extends FormRequest
                 return [
                     'product_id' => 'required|exists:products,id',
                     'stock' => 'required|numeric',
-                    'custom_price' => 'sometimes|numeric',
+                    'price' => 'sometimes|numeric|nullable',
+                    'image' => 'sometimes',
                 ];
             }
             case 'PATCH' :
@@ -43,7 +45,8 @@ class ProductVariantRequest extends FormRequest
                 return [
                     'product_id' => 'sometimes|exists:products,id',
                     'stock' => 'sometimes|numeric',
-                    'custom_price' => 'sometimes|numeric',
+                    'price' => 'sometimes|numeric|nullable',
+                    'image' => 'sometimes',
                 ];
             }
             default :

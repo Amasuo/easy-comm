@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('delivery_drivers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('delivery_company_id')->nullable()->constrained('delivery_companies');
+            $table->foreignId('delivery_company_id')->nullable()->constrained('delivery_companies')->onDelete('cascade');
             $table->string('firstname');
             $table->string('lastname');
-            $table->string('phone')->unique();
+            $table->string('phone');
             $table->timestamps();
         });
     }

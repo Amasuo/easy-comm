@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('product_option_value_product_variant', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_variant_id')->nullable()->constrained('product_variants');
-            $table->foreignId('product_option_value_id')->nullable()->constrained('product_option_values');
+            $table->foreignId('product_variant_id')->nullable()->constrained('product_variants')->onDelete('cascade');
+            $table->unsignedBigInteger('product_option_value_id');
+            $table->foreign('product_option_value_id', 'p_o_v_id_foreign')->references('id')->on('product_option_values')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

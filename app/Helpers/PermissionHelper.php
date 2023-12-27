@@ -37,4 +37,8 @@ class PermissionHelper
         }
         return $role;
     }
+
+    public static function assignUserRole($user, $roleName) {
+        $user->syncRoles([$roleName]);
+    }
 }

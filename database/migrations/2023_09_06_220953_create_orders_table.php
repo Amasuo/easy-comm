@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->uuid('public_id')->default(DB::raw('(UUID())'));
-            $table->foreignId('store_id')->constrained('stores');
-            $table->foreignId('customer_id')->constrained('customers');
-            $table->foreignId('delivery_driver_id')->nullable()->constrained('delivery_drivers');
-
+            $table->foreignId('store_id')->constrained('stores')->onDelete('cascade');
+            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
+            $table->foreignId('delivery_driver_id')->nullable()->constrained('delivery_drivers')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
