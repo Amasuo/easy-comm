@@ -37,6 +37,17 @@ class ProductController extends Controller
                 }
             });
         }
+
+        $filter = $request->query('filter');
+        if ($filter) {
+            $filter = get_object_vars(json_decode($filter));
+            foreach ($filter as $key => $value) {
+                if ($value) {
+                    $data = $data->where($key, $value);
+                }
+            }
+        }
+
         $data = $data->paginate(10);
         if (!$data) {
             return $this->failure(__('app.' . $this->translationName . '.model-not-found'), HTTPHeader::NOT_FOUND);
@@ -60,19 +71,22 @@ class ProductController extends Controller
             $item->addMediaFromRequest('image')->toMediaCollection('main');
         }
         if (array_key_exists('product_options', $input)) {
-            foreach (json_decode($input['product_options']) as $productOption) {
-                $productOptionName = $productOption->name;
-                $productOptionModel = new ProductOption();
-                $productOptionModel->name = $productOptionName;
-                $productOptionModel->product_id = $item->id;
-                $productOptionModel->save();
-
-                $productOptionValues = $productOption->product_option_values;
-                foreach ($productOptionValues as $productOptionValue) {
-                    $productOptionValueModel = new ProductOptionValue();
-                    $productOptionValueModel->value = $productOptionValue->value;
-                    $productOptionValueModel->product_option_id = $productOptionModel->id;
-                    $productOptionValueModel->save();
+            $productOptions = json_decode($input['product_options']);
+            if ($productOptions) {
+                foreach (json_decode($input['product_options']) as $productOption) {
+                    $productOptionName = $productOption->name;
+                    $productOptionModel = new ProductOption();
+                    $productOptionModel->name = $productOptionName;
+                    $productOptionModel->product_id = $item->id;
+                    $productOptionModel->save();
+    
+                    $productOptionValues = $productOption->product_option_values;
+                    foreach ($productOptionValues as $productOptionValue) {
+                        $productOptionValueModel = new ProductOptionValue();
+                        $productOptionValueModel->value = $productOptionValue->value;
+                        $productOptionValueModel->product_option_id = $productOptionModel->id;
+                        $productOptionValueModel->save();
+                    }
                 }
             }
         }

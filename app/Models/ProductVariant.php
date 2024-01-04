@@ -17,6 +17,7 @@ class ProductVariant extends Model implements HasMedia
 
     protected $with = [
         'product',
+        'product_option_values'
     ];
     protected $fillable = [
         'product_id',

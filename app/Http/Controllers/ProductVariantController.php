@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductVariant\ProductVariantRequest;
 use App\Http\Requests\ProductVariant\StoreProductOptionValuesRequest;
+use App\Models\ProductOptionValue;
 use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -23,11 +24,15 @@ class ProductVariantController extends Controller
         $item->fill($input);
         $item->price = $input['price'] ?? null;
         $item->save();
-        Log::debug('aaa');
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            Log::debug('bbb');
             $item->addMediaFromRequest('image')->toMediaCollection('main');
         }
+
+        $productOptionValues = json_decode($input['product_option_values']);
+        if ($productOptionValues) {
+            $item->product_option_values()->attach($productOptionValues);
+        }
+        
         return $this->success(__('app.' . $this->translationName . '.created'), $item);
     }
 

@@ -29,6 +29,7 @@ class ProductVariantRequest extends FormRequest
                     'stock' => 'required|numeric',
                     'price' => 'sometimes|numeric|nullable',
                     'image' => 'sometimes',
+                    'product_option_values' => 'sometimes',
                 ];
             }
             case 'PUT' :
@@ -38,6 +39,7 @@ class ProductVariantRequest extends FormRequest
                     'stock' => 'required|numeric',
                     'price' => 'sometimes|numeric|nullable',
                     'image' => 'sometimes',
+                    'product_option_values' => 'sometimes',
                 ];
             }
             case 'PATCH' :
@@ -47,6 +49,7 @@ class ProductVariantRequest extends FormRequest
                     'stock' => 'sometimes|numeric',
                     'price' => 'sometimes|numeric|nullable',
                     'image' => 'sometimes',
+                    'product_option_values' => 'sometimes',
                 ];
             }
             default :

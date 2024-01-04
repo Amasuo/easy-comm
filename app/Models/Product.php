@@ -21,7 +21,8 @@ class Product extends Model implements HasMedia
     ];
 
     protected $with = [
-        'store'
+        'store',
+        'product_options'
     ];
     
     protected $fillable = [
