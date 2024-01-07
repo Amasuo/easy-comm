@@ -19,6 +19,13 @@ class ProductGender extends Model
         'name',
     ];
 
+    protected static function booted()
+    {
+        static::deleting(function ($productGender) {
+            Product::where('product_gender_id', $productGender->id)->update(['product_gender_id' => null]);
+        });
+    }
+
     public function products(): HasMany
     {
         return $this->hasMany(Product::class, 'product_gender_id');

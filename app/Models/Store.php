@@ -13,10 +13,12 @@ class Store extends Model
 
     const SEARCHABLE = [
         'name',
+        'patent_number',
     ];
 
     protected $fillable = [
         'name',
+        'patent_number',
     ];
 
     public function customers(): HasMany
