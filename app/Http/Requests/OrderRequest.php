@@ -28,6 +28,7 @@ class OrderRequest extends FormRequest
             {
                 return [
                     'store_id' => 'required|exists:stores,id',
+                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id',
                     'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id',
                     'customer_id' => 'sometimes|exists:customers,id',
                     'product_variants' => 'required|array',
@@ -43,6 +44,7 @@ class OrderRequest extends FormRequest
             {
                 return [
                     'store_id' => 'required|exists:stores,id',
+                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id',
                     'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id',
                     'customer_id' => 'sometimes|exists:customers,id',
                     //'product_variants' => 'required|array',
@@ -58,6 +60,7 @@ class OrderRequest extends FormRequest
             {
                 return [
                     'store_id' => 'sometimes|exists:stores,id',
+                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id',
                     'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id',
                     'customer_id' => 'sometimes|exists:customers,id',
                     //'product_variants' => 'sometimes|array',

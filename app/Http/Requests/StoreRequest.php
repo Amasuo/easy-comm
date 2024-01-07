@@ -26,21 +26,21 @@ class StoreRequest extends FormRequest
             {
                 return [
                     'name' => 'required|string|unique:stores',
-                    'patent_number' => 'sometimes|string|unique:stores|nullable',
+                    'patent_number' => 'sometimes|string|unique:stores',
                 ];
             }
             case 'PUT' :
             {
                 return [
                     'name' => 'required|string',
-                    'patent_number' => 'sometimes|string|nullable',
+                    'patent_number' => 'sometimes|string',
                 ];
             }
             case 'PATCH' :
             {
                 return [
                     'name' => 'sometimes|string',
-                    'patent_number' => 'sometimes|string|nullable',
+                    'patent_number' => 'sometimes|string',
                 ];
             }
             default :

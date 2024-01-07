@@ -18,6 +18,7 @@ class Order extends Model
     protected $fillable = [
         'store_id',
         'customer_id',
+        'delivery_company_id',
         'delivery_driver_id',
     ];
 
@@ -33,6 +34,11 @@ class Order extends Model
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class, 'customer_id');
+    }
+
+    public function delivery_company(): BelongsTo
+    {
+        return $this->belongsTo(DeliveryCompany::class, 'delivery_company_id');
     }
 
     public function delivery_driver(): BelongsTo
