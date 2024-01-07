@@ -23,6 +23,7 @@ class ProductVariantController extends Controller
         $item = new $this->class();
         $item->fill($input);
         $item->price = $input['price'] ?? null;
+        $item->purchase_price = $input['purchase_price'] ?? null;
         $item->save();
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $item->addMediaFromRequest('image')->toMediaCollection('main');
@@ -43,6 +44,7 @@ class ProductVariantController extends Controller
         $input = $request->validated();
         $item->fill($input);
         $item->price = $input['price'] ?? null;
+        $item->purchase_price = $input['purchase_price'] ?? null;
         $item->save();
         if ($request->hasFile('image')) {
             $mediaItems = $item->getMedia("*");

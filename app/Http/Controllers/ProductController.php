@@ -63,6 +63,7 @@ class ProductController extends Controller
         $item = new $this->class();
         $item->fill($input);
         $item->price = $input['price'];
+        $item->purchase_price = $input['purchase_price'];
         if ($user->isStoreAdmin()) {
             $item->store_id = $user->store_id;
         }
@@ -101,6 +102,7 @@ class ProductController extends Controller
         $input = $request->validated();
         $item->fill($input);
         $item->price = $input['price'] ?? $item->price;
+        $item->purchase_price = $input['purchase_price'] ?? $item->purchase_price;
         if ($user->isStoreAdmin()) {
             $item->store_id = $user->store_id;
         }

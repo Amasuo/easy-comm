@@ -26,11 +26,13 @@ class ProductVariant extends Model implements HasMedia
 
     protected $appends = [
         'price',
+        'purchase_price',
         'image',
     ];
 
     protected $hidden = [
         'custom_price_int',
+        'custom_purchase_price_int',
         'media',
     ];
 
@@ -72,6 +74,16 @@ class ProductVariant extends Model implements HasMedia
         return $this->setCustomPriceAttribute($value);
     }
 
+    public function getPurchasePriceAttribute()
+    {
+        return $this->custom_purchase_price ?? $this->product->purchase_price;
+    }
+
+    public function setPurchasePriceAttribute($value)
+    {
+        return $this->setCustomPurchasePriceAttribute($value);
+    }
+
     // example : stored as 1235 -> return 123.5 (dt)
     public function getCustomPriceAttribute()
     {
@@ -83,6 +95,17 @@ class ProductVariant extends Model implements HasMedia
     {
         $intValue = intval(round($value * 10), 0);
         $this->attributes['custom_price_int'] = $intValue;
+    }
+
+    public function getCustomPurchasePriceAttribute()
+    {
+        return $this->custom_purchase_price_int ? $this->custom_purchase_price_int / 10 : null;
+    }
+
+    public function setCustomPurchasePriceAttribute($value)
+    {
+        $intValue = intval(round($value * 10), 0);
+        $this->attributes['custom_purchase_price_int'] = $intValue;
     }
 
     public function product(): BelongsTo

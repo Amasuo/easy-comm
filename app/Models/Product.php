@@ -32,11 +32,13 @@ class Product extends Model implements HasMedia
 
     protected $appends = [
         'price',
+        'purchase_price',
         'image',
     ];
 
     protected $hidden = [
         'price_int',
+        'purchase_price_int',
         'media',
     ];
 
@@ -79,6 +81,17 @@ class Product extends Model implements HasMedia
     {
         $intValue = intval(round($value * 10), 0);
         $this->attributes['price_int'] = $intValue;
+    }
+
+    public function getPurchasePriceAttribute()
+    {
+        return $this->purchase_price_int ? $this->purchase_price_int / 10 : null;
+    }
+
+    public function setPurchasePriceAttribute($value)
+    {
+        $intValue = intval(round($value * 10), 0);
+        $this->attributes['purchase_price_int'] = $intValue;
     }
 
     public function store(): BelongsTo

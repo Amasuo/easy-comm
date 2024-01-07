@@ -29,6 +29,7 @@ class ProductRequest extends FormRequest
                     'store_id' => 'sometimes|exists:stores,id|nullable',
                     'name' => 'required|string',
                     'price' => 'required|numeric',
+                    'purchase_price' => 'required|numeric',
                     'image' => 'sometimes',
                     'product_options' => 'sometimes',
                 ];
@@ -39,6 +40,7 @@ class ProductRequest extends FormRequest
                     'store_id' => 'sometimes|exists:stores,id|nullable',
                     'name' => 'required|string',
                     'price' => 'required|numeric',
+                    'purchase_price' => 'required|numeric',
                     'image' => 'sometimes',
                     'product_options' => 'sometimes',
                 ];
@@ -49,6 +51,7 @@ class ProductRequest extends FormRequest
                     'store_id' => 'sometimes|exists:stores,id|nullable',
                     'name' => 'sometimes|string',
                     'price' => 'sometimes|numeric',
+                    'purchase_price' => 'sometimes|numeric',
                     'image' => 'sometimes',
                     'product_options' => 'sometimes',
                 ];

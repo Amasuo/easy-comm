@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\RegisterAttempt;
+use App\Models\Store;
 use App\Models\User;
 
 class AuthHelper
