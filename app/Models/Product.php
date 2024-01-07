@@ -22,12 +22,14 @@ class Product extends Model implements HasMedia
 
     protected $with = [
         'store',
-        'product_options'
+        'product_options',
+        'product_gender',
     ];
     
     protected $fillable = [
         'store_id',
         'name',
+        'product_gender_id',
     ];
 
     protected $appends = [
@@ -107,5 +109,10 @@ class Product extends Model implements HasMedia
     public function product_options(): HasMany
     {
         return $this->hasMany(ProductOption::class, 'product_id');
+    }
+
+    public function product_gender(): BelongsTo
+    {
+        return $this->belongsTo(ProductGender::class, 'product_gender_id');
     }
 }

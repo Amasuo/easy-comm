@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\HTTPHeader;
+use App\Enums\ProductGender;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use App\Models\ProductOption;

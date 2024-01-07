@@ -32,6 +32,7 @@ class ProductRequest extends FormRequest
                     'purchase_price' => 'required|numeric',
                     'image' => 'sometimes',
                     'product_options' => 'sometimes',
+                    'product_gender_id' => 'sometimes|exists:product_genders,id',
                 ];
             }
             case 'PUT' :
@@ -43,6 +44,7 @@ class ProductRequest extends FormRequest
                     'purchase_price' => 'required|numeric',
                     'image' => 'sometimes',
                     'product_options' => 'sometimes',
+                    'product_gender_id' => 'sometimes|exists:product_genders,id',
                 ];
             }
             case 'PATCH' :
@@ -54,6 +56,7 @@ class ProductRequest extends FormRequest
                     'purchase_price' => 'sometimes|numeric',
                     'image' => 'sometimes',
                     'product_options' => 'sometimes',
+                    'product_gender_id' => 'sometimes|exists:product_genders,id',
                 ];
             }
             default :
