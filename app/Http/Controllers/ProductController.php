@@ -65,7 +65,7 @@ class ProductController extends Controller
         $item->fill($input);
         $item->price = $input['price'];
         $item->purchase_price = $input['purchase_price'];
-        if ($user->isStoreAdmin()) {
+        if (!$user->isAdmin()) {
             $item->store_id = $user->store_id;
         }
         $item->save();

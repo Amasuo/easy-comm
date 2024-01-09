@@ -10,7 +10,7 @@ Route::get('', [CustomerController::class, 'getAll'])
 Route::post('', [CustomerController::class, 'store'])
     ->name('app.customer.create');
 
-Route::middleware(["check-user-order-related"])->group(function () {
+Route::middleware(["check-user-customer-related"])->group(function () {
     Route::get('/{id}', [CustomerController::class, 'getItem'])
     ->where('id', '[0-9]+')
     ->name('app.customer.get-one');

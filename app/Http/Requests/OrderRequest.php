@@ -37,7 +37,7 @@ class OrderRequest extends FormRequest
                     'phone' => 'required|string',
                     'state' => 'required|string',
                     'city' => 'required|string',
-                    'street' => 'sometimes|string',
+                    'street' => 'sometimes|string|nullable',
                 ];
             }
             case 'PUT' :
@@ -53,7 +53,7 @@ class OrderRequest extends FormRequest
                     'phone' => 'required|string',
                     'state' => 'required|string',
                     'city' => 'required|string',
-                    'street' => 'sometimes|string',
+                    'street' => 'sometimes|string|nullable',
                 ];
             }
             case 'PATCH' :
@@ -64,12 +64,12 @@ class OrderRequest extends FormRequest
                     'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id',
                     'customer_id' => 'sometimes|exists:customers,id',
                     //'product_variants' => 'sometimes|array',
-                    'firstname' => 'sometimes|string',
-                    'lastname' => 'sometimes|string',
-                    'phone' => 'sometimes|string',
-                    'state' => 'sometimes|string',
-                    'city' => 'sometimes|string',
-                    'street' => 'sometimes|string',
+                    'firstname' => 'sometimes|string|nullable',
+                    'lastname' => 'sometimes|string|nullable',
+                    'phone' => 'sometimes|string|nullable',
+                    'state' => 'sometimes|string|nullable',
+                    'city' => 'sometimes|string|nullable',
+                    'street' => 'sometimes|string|nullable',
                 ];
             }
             default :

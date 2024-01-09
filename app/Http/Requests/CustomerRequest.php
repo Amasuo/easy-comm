@@ -25,37 +25,37 @@ class CustomerRequest extends FormRequest
             case 'POST' :
             {
                 return [
-                    'store_id' => 'required|exists:stores,id',
+                    'store_id' => 'sometimes|exists:stores,id|nullable',
                     'firstname' => 'required|string',
                     'lastname' => 'required|string',
                     'phone' => 'required|string',
                     'state' => 'required|string',
                     'city' => 'required|string',
-                    'street' => 'sometimes|string',
+                    'street' => 'sometimes|string|nullable',
                 ];
             }
             case 'PUT' :
             {
                 return [
-                    'store_id' => 'required|exists:stores,id',
+                    'store_id' => 'sometimes|exists:stores,id|nullable',
                     'firstname' => 'required|string',
                     'lastname' => 'required|string',
                     'phone' => 'required|string',
                     'state' => 'required|string',
                     'city' => 'required|string',
-                    'street' => 'sometimes|string',
+                    'street' => 'sometimes|string|nullable',
                 ];
             }
             case 'PATCH' :
             {
                 return [
-                    'store_id' => 'sometimes|exists:stores,id',
-                    'firstname' => 'sometimes|string',
-                    'lastname' => 'sometimes|string',
-                    'phone' => 'sometimes|string',
-                    'state' => 'sometimes|string',
-                    'city' => 'sometimes|string',
-                    'street' => 'sometimes|string',
+                    'store_id' => 'sometimes|exists:stores,id|nullable',
+                    'firstname' => 'sometimes|string|nullable',
+                    'lastname' => 'sometimes|string|nullable',
+                    'phone' => 'sometimes|string|nullable',
+                    'state' => 'sometimes|string|nullable',
+                    'city' => 'sometimes|string|nullable',
+                    'street' => 'sometimes|string|nullable',
                 ];
             }
             default :

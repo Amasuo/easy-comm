@@ -13,6 +13,19 @@ class Customer extends Model
 
     protected $table = 'customers';
 
+    protected $with = [
+        'store'
+    ];
+
+    const SEARCHABLE = [
+        'firstname',
+        'lastname',
+        'phone',
+        'state',
+        'city',
+        'street',
+    ];
+
     protected $fillable = [
         'store_id',
         'firstname',

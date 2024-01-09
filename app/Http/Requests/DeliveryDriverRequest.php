@@ -25,8 +25,8 @@ class DeliveryDriverRequest extends FormRequest
             case 'POST' :
             {
                 return [
-                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id|nullable',
-                    'store_id' => 'sometimes|exists:stores,id|nullable',
+                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id',
+                    'store_id' => 'sometimes|exists:stores,id',
                     'firstname' => 'required|string',
                     'lastname' => 'required|string',
                     'phone' => 'required|string',
@@ -35,8 +35,8 @@ class DeliveryDriverRequest extends FormRequest
             case 'PUT' :
             {
                 return [
-                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id|nullable',
-                    'store_id' => 'sometimes|exists:stores,id|nullable',
+                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id',
+                    'store_id' => 'sometimes|exists:stores,id',
                     'firstname' => 'required|string',
                     'lastname' => 'required|string',
                     'phone' => 'required|string',
@@ -45,11 +45,11 @@ class DeliveryDriverRequest extends FormRequest
             case 'PATCH' :
             {
                 return [
-                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id|nullable',
-                    'store_id' => 'sometimes|exists:stores,id|nullable',
-                    'firstname' => 'sometimes|string',
-                    'lastname' => 'sometimes|string',
-                    'phone' => 'sometimes|string',
+                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id',
+                    'store_id' => 'sometimes|exists:stores,id',
+                    'firstname' => 'sometimes|string|nullable',
+                    'lastname' => 'sometimes|string|nullable',
+                    'phone' => 'sometimes|string|nullable',
                 ];
             }
             default :
