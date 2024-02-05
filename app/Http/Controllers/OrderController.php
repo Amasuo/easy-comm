@@ -20,7 +20,6 @@ class OrderController extends Controller
     public function getAll(Request $request)
     {
         $user = auth()->user();
-        $data = null;
         $data = $this->class::query();
         if (!$user->isAdmin()) {
             $data = $data->where('store_id', $user->store_id);
@@ -46,6 +45,8 @@ class OrderController extends Controller
     
     public function store(OrderRequest $request)
     {
+        $user = auth()->user();
+
         $input = $request->validated();
 
         // check stock of product variants passed first (example of product variant passed : {"id" => 1, "count" => 4})
@@ -59,6 +60,10 @@ class OrderController extends Controller
 
         $item = new $this->class();
         $item->fill($input);
+
+        if (!$user->isAdmin()) {
+            $item->store_id = $user->store_id;
+        }
 
         // find or create customer
         $customerId = $input['customer_id'] ?? null;

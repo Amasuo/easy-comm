@@ -19,7 +19,13 @@ class ProductVariantController extends Controller
 
     public function getAll(Request $request)
     {
+        $user = auth()->user();
         $data = $this->class::query();
+        if (!$user->isAdmin()) {
+            $data = $data->whereHas('product', function ($query) use ($user) {
+                $query->where('store_id', $user->store_id);
+            });
+        }
         $searchQuery = $request->query('search');
         if ($searchQuery && $this->class::SEARCHABLE) {
             foreach ($this->class::SEARCHABLE as $searchableAttribute) {
