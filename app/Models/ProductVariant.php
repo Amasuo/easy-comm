@@ -25,6 +25,7 @@ class ProductVariant extends Model implements HasMedia
     ];
 
     protected $appends = [
+        'name',
         'price',
         'purchase_price',
         'image',
@@ -57,6 +58,18 @@ class ProductVariant extends Model implements HasMedia
             ->format('webp')
             ->nonQueued()
             ->performOnCollections('preview');*/
+    }
+
+    public function getNameAttribute()
+    {
+        $name = $this->product?->name;
+        if($name) {
+            foreach ($this->product_option_values as $productOptionValue) {
+                $name .= ' | ' . $productOptionValue->value;
+            }
+        }
+
+        return $name;
     }
 
     public function getImageAttribute()

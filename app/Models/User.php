@@ -46,6 +46,7 @@ class User extends Authenticatable
         'is_store_admin',
         'is_store_simple',
         'role',
+        'fullname',
     ];
 
     /**
@@ -69,6 +70,11 @@ class User extends Authenticatable
         'password' => 'hashed',
         'is_active' => 'bool',
     ];
+
+    public function getFullnameAttribute(): string
+    {
+        return $this->firstname ? $this->firstname  . ' ' . $this->lastname : $this->lastname;
+    }
 
     public function store() {
         return $this->belongsTo(Store::class, 'store_id');

@@ -20,9 +20,19 @@ class Order extends Model
         'customer_id',
         'delivery_company_id',
         'delivery_driver_id',
+        'firstname',
+        'lastname',
+        'phone',
+        'state',
+        'city',
+        'street',
     ];
 
     protected $with = [
+        'store',
+        'customer',
+        'delivery_company',
+        'delivery_driver',
         'product_variants',
     ];
 

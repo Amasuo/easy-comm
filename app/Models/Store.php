@@ -35,4 +35,9 @@ class Store extends Model
     {
         return $this->hasMany(Order::class, 'store_id');
     }
+
+    public function delivery_drivers(): HasMany
+    {
+        return $this->hasMany(DeliveryDriver::class, 'store_id');
+    }
 }

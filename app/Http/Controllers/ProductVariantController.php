@@ -16,6 +16,40 @@ class ProductVariantController extends Controller
         $this->class = ProductVariant::class;
         $this->translationName = 'product-variant';
     }
+
+    public function getAll(Request $request)
+    {
+        $data = $this->class::query();
+        $searchQuery = $request->query('search');
+        if ($searchQuery && $this->class::SEARCHABLE) {
+            foreach ($this->class::SEARCHABLE as $searchableAttribute) {
+                $data = $data->orWhere($searchableAttribute, 'like', '%' . $searchQuery . '%');
+            }
+        }
+
+        $filter = $request->query('filter');
+        if ($filter) {
+            $filter = get_object_vars(json_decode($filter));
+            foreach ($filter as $key => $value) {
+                if ($value) {
+                    if($key === 'store_id') {
+                        $data = $data->whereHas('product', function ($query) use ($key, $value) {
+                            $query->where($key, $value);
+                        });
+                    } else {
+                        $data = $data->where($key, $value);
+                    }
+                }
+            }
+        }
+
+        $data = $data->paginate(10);
+        if (!$data) {
+            return $this->failure(__('app.' . $this->translationName . '.model-not-found'), HTTPHeader::NOT_FOUND);
+        }
+
+        return $this->success(__('app.' . $this->translationName . '.get-all'), $data);
+    }
     
     public function store(ProductVariantRequest $request)
     {

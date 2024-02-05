@@ -36,6 +36,15 @@ class Customer extends Model
         'street',
     ];
 
+    protected $appends = [
+        'fullname',
+    ];
+
+    public function getFullnameAttribute(): string
+    {
+        return $this->firstname ? $this->firstname  . ' ' . $this->lastname : $this->lastname;
+    }
+
     public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class, 'store_id');

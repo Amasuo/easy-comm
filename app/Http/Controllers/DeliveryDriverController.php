@@ -33,6 +33,17 @@ class DeliveryDriverController extends Controller
                 }
             });
         }
+
+        $filter = $request->query('filter');
+        if ($filter) {
+            $filter = get_object_vars(json_decode($filter));
+            foreach ($filter as $key => $value) {
+                if ($value) {
+                    $data = $data->where($key, $value);
+                }
+            }
+        }
+        
         $data = $data->paginate(10);
         if (!$data) {
             return $this->failure(__('app.' . $this->translationName . '.model-not-found'), HTTPHeader::NOT_FOUND);

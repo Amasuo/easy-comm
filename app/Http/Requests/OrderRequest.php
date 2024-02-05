@@ -27,10 +27,10 @@ class OrderRequest extends FormRequest
             case 'POST' :
             {
                 return [
-                    'store_id' => 'required|exists:stores,id',
-                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id',
-                    'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id',
-                    'customer_id' => 'sometimes|exists:customers,id',
+                    'store_id' => 'sometimes|exists:stores,id|nullable',
+                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id|nullable',
+                    'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id|nullable',
+                    'customer_id' => 'sometimes|exists:customers,id|nullable',
                     'product_variants' => 'required|array',
                     'firstname' => 'required|string',
                     'lastname' => 'required|string',
@@ -43,10 +43,10 @@ class OrderRequest extends FormRequest
             case 'PUT' :
             {
                 return [
-                    'store_id' => 'required|exists:stores,id',
-                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id',
-                    'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id',
-                    'customer_id' => 'sometimes|exists:customers,id',
+                    'store_id' => 'sometimes|exists:stores,id|nullable',
+                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id|nullable',
+                    'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id|nullable',
+                    'customer_id' => 'sometimes|exists:customers,id|nullable',
                     //'product_variants' => 'required|array',
                     'firstname' => 'required|string',
                     'lastname' => 'required|string',
@@ -59,10 +59,10 @@ class OrderRequest extends FormRequest
             case 'PATCH' :
             {
                 return [
-                    'store_id' => 'sometimes|exists:stores,id',
-                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id',
-                    'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id',
-                    'customer_id' => 'sometimes|exists:customers,id',
+                    'store_id' => 'sometimes|exists:stores,id|nullable',
+                    'delivery_company_id' => 'sometimes|exists:delivery_companies,id|nullable',
+                    'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id|nullable',
+                    'customer_id' => 'sometimes|exists:customers,id|nullable',
                     //'product_variants' => 'sometimes|array',
                     'firstname' => 'sometimes|string|nullable',
                     'lastname' => 'sometimes|string|nullable',

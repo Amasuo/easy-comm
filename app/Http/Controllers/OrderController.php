@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\HTTPHeader;
 use App\Http\Requests\OrderRequest;
 use App\Models\Customer;
 use App\Models\Order;
@@ -14,6 +15,33 @@ class OrderController extends Controller
         parent::__construct($request);
         $this->class = Order::class;
         $this->translationName = 'order';
+    }
+
+    public function getAll(Request $request)
+    {
+        $user = auth()->user();
+        $data = null;
+        $data = $this->class::query();
+        if (!$user->isAdmin()) {
+            $data = $data->where('store_id', $user->store_id);
+        }
+
+        $filter = $request->query('filter');
+        if ($filter) {
+            $filter = get_object_vars(json_decode($filter));
+            foreach ($filter as $key => $value) {
+                if ($value) {
+                    $data = $data->where($key, $value);
+                }
+            }
+        }
+
+        $data = $data->paginate(10);
+        if (!$data) {
+            return $this->failure(__('app.' . $this->translationName . '.model-not-found'), HTTPHeader::NOT_FOUND);
+        }
+
+        return $this->success(__('app.' . $this->translationName . '.get-all'), $data);
     }
     
     public function store(OrderRequest $request)

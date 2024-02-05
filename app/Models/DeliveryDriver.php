@@ -33,11 +33,17 @@ class DeliveryDriver extends Model
 
     protected $appends = [
         'is_private',
+        'fullname',
     ];
 
     public function getIsPrivateAttribute(): bool
     {
         return !is_null($this->delivery_company);
+    }
+
+    public function getFullnameAttribute(): string
+    {
+        return $this->firstname ? $this->firstname  . ' ' . $this->lastname : $this->lastname;
     }
 
     public function delivery_company(): BelongsTo
