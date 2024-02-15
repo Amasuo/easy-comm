@@ -24,6 +24,11 @@ Route::middleware('auth:api')->group(function () {
     Route::get('role', [Controller::class, 'getRoleNames'])
     ->middleware('check-store-admin');
 
+    /** register attempt routes */
+    Route::name('app.register-attempt')
+        ->prefix('register-attempt')
+        ->group(__DIR__ . '/api/register-attempt.php');
+
     /** user routes */
     Route::name('app.user')
         ->prefix('user')

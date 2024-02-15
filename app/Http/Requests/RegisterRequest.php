@@ -25,6 +25,7 @@ class RegisterRequest extends FormRequest
             'store'=>'required',
             'firstname'=>'required',
             'lastname'=>'required',
+            'phone' => 'required|min:8',
             'email'=>'required|email|unique:users',
             'password'=>'required|min:8',
         ];
