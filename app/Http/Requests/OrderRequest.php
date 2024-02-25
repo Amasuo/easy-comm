@@ -38,6 +38,7 @@ class OrderRequest extends FormRequest
                     'state' => 'required|string',
                     'city' => 'required|string',
                     'street' => 'sometimes|string|nullable',
+                    'delivered_at' => 'sometimes|date|nullable',
                 ];
             }
             case 'PUT' :
@@ -54,6 +55,7 @@ class OrderRequest extends FormRequest
                     'state' => 'required|string',
                     'city' => 'required|string',
                     'street' => 'sometimes|string|nullable',
+                    'delivered_at' => 'sometimes|date',
                 ];
             }
             case 'PATCH' :
@@ -70,6 +72,7 @@ class OrderRequest extends FormRequest
                     'state' => 'sometimes|string|nullable',
                     'city' => 'sometimes|string|nullable',
                     'street' => 'sometimes|string|nullable',
+                    'delivered_at' => 'sometimes|date',
                 ];
             }
             default :

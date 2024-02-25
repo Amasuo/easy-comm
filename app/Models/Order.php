@@ -26,6 +26,7 @@ class Order extends Model
         'state',
         'city',
         'street',
+        'delivered_at',
     ];
 
     protected $with = [
@@ -34,6 +35,10 @@ class Order extends Model
         'delivery_company',
         'delivery_driver',
         'product_variants',
+    ];
+
+    protected $casts = [
+        'delivered_at' => 'datetime',
     ];
 
     public function store(): BelongsTo
