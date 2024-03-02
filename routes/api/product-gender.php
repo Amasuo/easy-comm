@@ -4,14 +4,14 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProductGenderController;
 
-Route::middleware(["check-admin"])->group(function () {
-    Route::get('', [ProductGenderController::class, 'getAll'])
-    ->name('app.product-variant.get-all');
+Route::get('', [ProductGenderController::class, 'getAll'])
+    ->name('app.product-gender.get-all');
     
-    Route::get('/{id}', [ProductGenderController::class, 'getItem'])
+Route::get('/{id}', [ProductGenderController::class, 'getItem'])
     ->where('id', '[0-9]+')
     ->name('app.product-gender.get-one');
 
+Route::middleware(["check-admin"])->group(function () {
     Route::post('', [ProductGenderController::class, 'store'])
     ->name('app.product-gender.create');
 

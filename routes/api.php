@@ -21,6 +21,9 @@ Route::post('logout', [AuthController::class, 'logout']);
 
 /** Routes under auth middleware (routes that need authentication) */
 Route::middleware('auth:api')->group(function () {
+    Route::match(['put', 'patch'],'/account', [AuthController::class, 'update'])
+        ->name('app.user.account.update');
+        
     Route::get('role', [Controller::class, 'getRoleNames'])
     ->middleware('check-store-admin');
 
@@ -79,8 +82,13 @@ Route::middleware('auth:api')->group(function () {
     ->prefix('order')
     ->group(__DIR__ . '/api/order.php');
 
-    /** order routes */
+    /**product gender routes */
     Route::name('app.product-gender')
     ->prefix('product-gender')
     ->group(__DIR__ . '/api/product-gender.php');
+
+    /** language routes */
+    Route::name('app.language')
+    ->prefix('language')
+    ->group(__DIR__ . '/api/language.php');
 });

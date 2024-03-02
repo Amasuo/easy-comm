@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Enums\HTTPHeader;
 use App\Helpers\AuthHelper;
+use App\Helpers\GeneralHelper;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UpdateAccountRequest;
 use App\Models\RegisterAttempt;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 class AuthController extends Controller
 {
@@ -62,5 +66,25 @@ class AuthController extends Controller
         }
 
         return $this->success(__('app.user.logout-success'));
+    }
+
+    public function update(UpdateAccountRequest $request)
+    {
+        $user = auth()->user();
+        $input = $request->validated();
+        //check email taken
+        if (array_key_exists('email', $input)) {
+            $email = $input['email'];
+            if (GeneralHelper::valueTakenForClassAttribute(User::class, 'email', $email, $user->id)) {
+                return $this->failure(__('app.auth.email-taken'));
+            }
+        }
+        // @todo: this throws foreign key error if we don't disable the check, why ???? 
+        Schema::disableForeignKeyConstraints();
+        $user->fill($input);
+        $user->save();
+        Schema::enableForeignKeyConstraints();
+
+        return $this->success(__('app.auth.updated'), $user);
     }
 }

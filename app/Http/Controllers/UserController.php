@@ -99,7 +99,6 @@ class UserController extends Controller
         //check email taken
         if (array_key_exists('email', $input)) {
             $email = $input['email'];
-            $existingUser = $this->class::where('email', $email)->first();
             if (GeneralHelper::valueTakenForClassAttribute($this->class, 'email', $email, $this->modelId)) {
                 return $this->failure(__('app.' . $this->translationName . '.email-taken'));
             }

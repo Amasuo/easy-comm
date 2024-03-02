@@ -23,7 +23,8 @@ class User extends Authenticatable
     ];
 
     protected $with = [
-        'store'
+        'store',
+        'language',
     ];
 
     /**
@@ -33,11 +34,15 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'store_id',
+        'language_id',
         'firstname',
         'lastname',
         'email',
         'password',
         'phone',
+        'street',
+        'state',
+        'city',
         'is_active'
     ];
 
@@ -78,6 +83,10 @@ class User extends Authenticatable
 
     public function store() {
         return $this->belongsTo(Store::class, 'store_id');
+    }
+
+    public function language() {
+        return $this->belongsTo(Language::class, 'language_id');
     }
 
     public function isAdmin()
