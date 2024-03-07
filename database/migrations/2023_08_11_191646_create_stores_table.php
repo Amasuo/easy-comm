@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('patent_number')->nullable();
+            $table->boolean('is_main')->nullable();
             $table->timestamps();
         });
     }

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('delivery_drivers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('store_id')->nullable()->constrained('stores')->onDelete('cascade');
             $table->foreignId('delivery_company_id')->nullable()->constrained('delivery_companies')->onDelete('cascade');
             $table->string('firstname');
             $table->string('lastname');

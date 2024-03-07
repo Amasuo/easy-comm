@@ -16,7 +16,15 @@ return new class extends Migration
             $table->uuid('public_id')->default(DB::raw('(UUID())'));
             $table->foreignId('store_id')->constrained('stores')->onDelete('cascade');
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
+            $table->foreignId('delivery_company_id')->nullable()->constrained('delivery_companies')->onDelete('cascade');
             $table->foreignId('delivery_driver_id')->nullable()->constrained('delivery_drivers')->onDelete('cascade');
+            $table->string('firstname');
+            $table->string('lastname');
+            $table->string('phone');
+            $table->string('state');
+            $table->string('city');
+            $table->string('street')->nullable();
+            $table->timestamp('delivered_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
