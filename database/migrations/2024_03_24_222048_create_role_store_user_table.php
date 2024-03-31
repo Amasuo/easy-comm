@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stores', function (Blueprint $table) {
+        Schema::create('role_store_user', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('patent_number')->nullable();
-            $table->foreignId('parent_id')->nullable()->constrained('stores')->onDelete('cascade');
+            $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
+            $table->foreignId('store_id')->nullable()->constrained('stores')->onDelete('cascade');  // nullable in case of ADMIN
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stores');
+        Schema::dropIfExists('role_store_user');
     }
 };

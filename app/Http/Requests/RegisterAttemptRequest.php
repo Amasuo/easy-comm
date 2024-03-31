@@ -29,6 +29,7 @@ class RegisterAttemptRequest extends FormRequest
                     'store_id' => 'sometimes|exists:stores,id|nullable',
                     'firstname' => 'required|string',
                     'lastname' => 'required|string',
+                    'phone' => 'required|string',
                     'email' => 'required|string',
                 ];
             }

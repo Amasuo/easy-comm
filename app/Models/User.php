@@ -3,17 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Enums\RoleName;
-use App\Helpers\PermissionHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable;
     
     const SEARCHABLE = [
         'firstname',
@@ -23,7 +20,7 @@ class User extends Authenticatable
     ];
 
     protected $with = [
-        'store',
+        'stores',
         'language',
     ];
 
@@ -33,7 +30,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'store_id',
         'language_id',
         'firstname',
         'lastname',
@@ -49,9 +45,8 @@ class User extends Authenticatable
     protected $appends = [
         'is_admin',
         'is_store_admin',
-        'is_store_simple',
-        'role',
         'fullname',
+        'store', // main store
     ];
 
     /**
@@ -81,8 +76,32 @@ class User extends Authenticatable
         return $this->firstname ? $this->firstname  . ' ' . $this->lastname : $this->lastname;
     }
 
-    public function store() {
-        return $this->belongsTo(Store::class, 'store_id');
+    public function roles() {
+        return $this->belongsToMany(Role::class, 'role_store_user')
+            ->withTimestamps();
+    }
+
+    public function assignAdminRole()
+    {
+        $roleStoreUser = new RoleStoreUser();
+        $roleStoreUser->role_id = 1; // admin
+        $roleStoreUser->store_id = null;
+        $roleStoreUser->user_id = $this->id;
+        $roleStoreUser->save();
+    }
+
+    public function stores() {
+        return $this->belongsToMany(Store::class, 'role_store_user')
+            ->withTimestamps();
+    }
+
+    public function addStore(Store $store, $isAdmin = false)
+    {
+        $roleStoreUser = new RoleStoreUser();
+        $roleStoreUser->role_id = $isAdmin ? 2 : 3;
+        $roleStoreUser->store_id = $store->id;
+        $roleStoreUser->user_id = $this->id;
+        $roleStoreUser->save();
     }
 
     public function language() {
@@ -91,25 +110,28 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->hasRole('admin');
+        $roleUser = RoleStoreUser::where('user_id', $this->id)->where('role_id', 1)->first();
+        return !is_null($roleUser);
     }
 
-    public function isStoreAdmin()
+    public function isStoreAdmin() 
     {
-        $store = Store::find($this->store_id);
-        if (!$store) {
-            return false;
+        $parentStore = $this->store;
+        if ($parentStore) {
+            $roleStoreUser = RoleStoreUser::where('user_id', $this->id)
+            ->where('store_id', $parentStore->id)
+            ->where('role_id', 2)   // store admin role
+            ->first();
+            return !is_null($roleStoreUser);
         }
-        return $this->hasRole(PermissionHelper::getAdminRoleForStore($store));
+        return false;
     }
 
-    public function isStoreSimple()
+    public function getStoreAttribute()
     {
-        $store = Store::find($this->store_id);
-        if (!$store) {
-            return false;
-        }
-        return $this->hasRole(PermissionHelper::getSimpleRoleForStore($store));
+        $store = $this->stores()->first();
+
+        return $store->parent ?? $store;
     }
 
     public function getIsAdminAttribute()
@@ -122,27 +144,25 @@ class User extends Authenticatable
         return $this->isStoreAdmin();
     }
 
-    public function getIsStoreSimpleAttribute()
-    {
-        return $this->isStoreSimple();
-    }
-
     public function getRegisterAttemptAttribute()
     {
         $registerAttempt = RegisterAttempt::where('user_id', $this->id)->first();
         return $registerAttempt;
     }
 
-    public function getRoleAttribute() {
-        if ($this->isAdmin()) {
-            return RoleName::ADMIN;
-        }
-        if ($this->isStoreAdmin()) {
-            return RoleName::STORE_ADMIN;
-        }
-        if ($this->isStoreSimple()) {
-            return RoleName::STORE_SIMPLE;
-        }
-        return null;
+    //get users for store admin
+    public function getRelatedUsersQuery()
+    {
+        $storesIds = $this->stores()->pluck('store_id');
+        $usersIds = RoleStoreUser::whereIn('store_id', $storesIds)->pluck('user_id');
+        return User::whereIn('id', $usersIds);
+    }
+
+    //get stores for store admin
+    public function getRelatedStoresQuery()
+    {
+        $parentStore = $this->store;
+        return Store::where('id', $parentStore->id) // parent
+            ->where('parent_id', $parentStore->id); // plus children
     }
 }

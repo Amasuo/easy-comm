@@ -83,6 +83,5 @@ class Kernel extends HttpKernel
         'check-user-product-related' => CheckUserAndProductRelatedMiddleware::class,
         'check-user-product-variant-related' => CheckUserAndProductVariantRelatedMiddleware::class,
         'check-user-store-related' => CheckUserAndStoreRelatedMiddleware::class,
-        'check-user-user-related'=> CheckUserAndUserRelatedMiddleware::class,
     ];
 }

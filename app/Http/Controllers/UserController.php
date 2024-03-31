@@ -3,16 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Enums\HTTPHeader;
-use App\Enums\RoleName;
 use App\Helpers\GeneralHelper;
-use App\Helpers\PermissionHelper;
 use App\Http\Requests\UserRequest;
+use App\Models\RoleStoreUser;
 use App\Models\Store;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -39,7 +35,7 @@ class UserController extends Controller
         if ($user->isAdmin()) {
             $data = $this->class::query();
         } else {
-            $data = $this->class::where('store_id', $user->store_id);
+            $data = $user->getRelatedUsersQuery();
         }
 
         $searchQuery = $request->query('search');
@@ -63,26 +59,50 @@ class UserController extends Controller
     {
         $user = auth()->user();
         $input = $request->validated();
+
+        // check if user is not an admin and wants to add an admin user
+        if (($input['role_id'] == 1) && !$user->isAdmin()) {
+            abort(HTTPHeader::FORBIDDEN, __('unauthorized'));
+        }
+        
         $item = new $this->class();
         $item->fill($input);
         $item->password = bcrypt($input['password']);
-        if ($user->isAdmin()) {
-            $item->store_id = array_key_exists('store_id', $input) ? $input['store_id'] : null;
-        } else {
-            $item->store_id = $user->store_id;
-        }
         $item->save();
 
-        if (array_key_exists('role', $input) && ($user->isAdmin()  || $user->isStoreAdmin())) {
-            $role = $input['role'];
-            $store = Store::find($item->store_id);
-            if ($role == RoleName::ADMIN && $user->isAdmin()) {
-                PermissionHelper::assignUserRole($item, 'admin');
-            } else if ($role == RoleName::STORE_ADMIN && $store) {
-                PermissionHelper::assignUserRole($item, PermissionHelper::getAdminRoleForStore($store));
-            } else if ($store) {
-                $store = Store::find($item->store_id);
-                PermissionHelper::assignUserRole($item, PermissionHelper::getSimpleRoleForStore($store));
+        if (($input['role_id'] == 1)) { // admin role
+            $roleStoreUser = new RoleStoreUser();
+                $roleStoreUser->role_id = $input['role_id'];
+                $roleStoreUser->store_id = null;
+                $roleStoreUser->user_id = $item->id;
+                $roleStoreUser->save();
+        } elseif (($input['role_id'] == 2)) { // store admin role
+            $parentStore = null;
+            if ($user->isAdmin()) {
+                if (array_key_exists('store_ids', $input)) {
+                    $store = Store::whereIn('id', $input['store_ids'])->first();
+                    $parentStore = $store->parent ?? $store;
+                }
+            } else { // store admin
+                $parentStore = $user->store;
+            }
+            
+            if ($parentStore) {
+                $roleStoreUser = new RoleStoreUser();
+                $roleStoreUser->role_id = $input['role_id'];
+                $roleStoreUser->store_id = $parentStore->id;
+                $roleStoreUser->user_id = $item->id;
+                $roleStoreUser->save();
+            }
+        } elseif ($input['role_id'] == 3) { // store simple role
+            if (array_key_exists('store_ids', $input)) {
+                foreach ($input['store_ids'] as $storeId) {
+                    $roleStoreUser = new RoleStoreUser();
+                    $roleStoreUser->role_id = $input['role_id'];
+                    $roleStoreUser->store_id = $storeId;
+                    $roleStoreUser->user_id = $item->id;
+                    $roleStoreUser->save();
+                }
             }
         }
 
@@ -91,6 +111,7 @@ class UserController extends Controller
 
     public function update(UserRequest $request)
     {
+        $user = auth()->user();
         $this->validateId();
         $item = $this->class::findOrFail($this->modelId);
         $input = $request->validated();
@@ -110,22 +131,36 @@ class UserController extends Controller
             $item->password = bcrypt($input['password']);
         }
 
-        if (!$item->store_id && $authUser->isAdmin()) {
-            $item->store_id = array_key_exists('store_id', $input) ? $input['store_id'] : $item->store_id;
-        }
         $item->save();
 
-        $isStoreAdminMinimum = $authUser->isAdmin()  || $authUser->isStoreAdmin();
-        if (array_key_exists('role', $input) && ($isStoreAdminMinimum)) {
-            $role = $input['role'];
-            $store = Store::find($item->store_id);
-            if ($role == RoleName::ADMIN && $authUser->isAdmin()) {
-                PermissionHelper::assignUserRole($item, 'admin');
-            } else if ($role == RoleName::STORE_ADMIN && $isStoreAdminMinimum && $store) {
-                PermissionHelper::assignUserRole($item, PermissionHelper::getAdminRoleForStore($store));
-            } else if ($store) {
-                $store = Store::find($item->store_id);
-                PermissionHelper::assignUserRole($item, PermissionHelper::getSimpleRoleForStore($store));
+        // check if user is not an admin and wants to add an admin user
+        if (array_key_exists('role_id', $input) && ($input['role_id'] == 1) && !$authUser->isAdmin()) {
+            abort(HTTPHeader::FORBIDDEN, __('unauthorized'));
+        }
+
+        if (array_key_exists('role_id', $input) && $user->isStoreAdmin()) {
+            // delete old
+            RoleStoreUser::where('user_id', $item->id)->delete();
+
+            if (($input['role_id'] == 2)) { // store admin role
+                $parentStore = $user->store;
+                if ($parentStore) {
+                    $roleStoreUser = new RoleStoreUser();
+                    $roleStoreUser->role_id = $input['role_id'];
+                    $roleStoreUser->store_id = $parentStore->id;
+                    $roleStoreUser->user_id = $item->id;
+                    $roleStoreUser->save();
+                }
+            } elseif ($input['role_id'] == 3) { // store simple role
+                if (array_key_exists('store_ids', $input)) {
+                    foreach ($input['store_ids'] as $storeId) {
+                        $roleStoreUser = new RoleStoreUser();
+                        $roleStoreUser->role_id = $input['role_id'];
+                        $roleStoreUser->store_id = $storeId;
+                        $roleStoreUser->user_id = $item->id;
+                        $roleStoreUser->save();
+                    }
+                }
             }
         }
 

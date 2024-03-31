@@ -25,15 +25,6 @@ class RegisterAttempt extends Model
 
     public function getBodyAttribute()
     {
-        $body = $this->attributes['body'];
-        $body = json_decode($body);
-
-        $res = new \stdClass();
-        $res->store = $body->store;
-        $res->firstname = $body->firstname;
-        $res->lastname = $body->lastname;
-        $res->email = $body->email;
-
-        return $res;
+        return json_decode($this->attributes['body']);
     }
 }

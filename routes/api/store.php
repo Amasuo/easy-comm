@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\StoreController;
 
-Route::middleware(["check-admin"])->group(function () {
+Route::middleware(["check-store-admin"])->group(function () {
     Route::get('', [StoreController::class, 'getAll'])
     ->name('app.store.get-all');
 

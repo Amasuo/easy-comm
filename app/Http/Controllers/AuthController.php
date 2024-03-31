@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Enums\HTTPHeader;
 use App\Helpers\AuthHelper;
 use App\Helpers\GeneralHelper;
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\UpdateAccountRequest;
 use App\Models\RegisterAttempt;
 use App\Models\User;
@@ -37,7 +37,7 @@ class AuthController extends Controller
 
         $access_token = $user->createToken('access-token')->accessToken;
         $res = AuthHelper::generateAuthResult($access_token, $user);
-        return $this->success(__('app.user.register-success'), $res);
+        return $this->success(__('app.user.register-success'), $res, HTTPHeader::CREATED);
     }
 
     public function login(LoginRequest $request)

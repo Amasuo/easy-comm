@@ -21,6 +21,30 @@ class Store extends Model
         'patent_number',
     ];
 
+    protected $with = [
+        'children'
+    ];
+
+    public function parent()
+    {
+        return $this->belongsTo(Store::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Store::class, 'parent_id');
+    }
+
+    public function users() {
+        return $this->belongsToMany(User::class, 'role_store_user')
+            ->withTimestamps();
+    }
+
+    public function addUser(User $user, $isAdmin = false)
+    {
+        $user->addStore($this, $isAdmin);
+    }
+
     public function customers(): HasMany
     {
         return $this->hasMany(Customer::class, 'store_id');

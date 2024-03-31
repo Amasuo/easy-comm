@@ -23,9 +23,6 @@ Route::post('logout', [AuthController::class, 'logout']);
 Route::middleware('auth:api')->group(function () {
     Route::match(['put', 'patch'],'/account', [AuthController::class, 'update'])
         ->name('app.user.account.update');
-        
-    Route::get('role', [Controller::class, 'getRoleNames'])
-    ->middleware('check-store-admin');
 
     /** register attempt routes */
     Route::name('app.register-attempt')
@@ -91,4 +88,9 @@ Route::middleware('auth:api')->group(function () {
     Route::name('app.language')
     ->prefix('language')
     ->group(__DIR__ . '/api/language.php');
+
+    /** role routes */
+    Route::name('app.role')
+    ->prefix('role')
+    ->group(__DIR__ . '/api/role.php');
 });

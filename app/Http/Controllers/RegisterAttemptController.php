@@ -24,7 +24,7 @@ class RegisterAttemptController extends Controller
         }
 
         $input = $request->validated();
-        $storeId = $input['store_id'];
+        $storeId = $input['store_id'] ?? null;
         if (!$storeId) {
             $storeName = $input['store'];
             $store = Store::where('name', $storeName)->first();
@@ -38,12 +38,14 @@ class RegisterAttemptController extends Controller
         }
 
         $user = $item->user;
-        $user->store_id = $storeId;
         $user->firstname = $input['firstname'];
         $user->lastname = $input['lastname'];
+        $user->phone = $input['phone'];
         $user->email = $input['email'];
         $user->is_active = true;
         $user->save();
+
+        $user->addStore($store, isAdmin: true);
 
         // delete register attempt after confirmation
         $item->delete();

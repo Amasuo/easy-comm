@@ -25,8 +25,8 @@ class UserRequest extends FormRequest
             case 'POST' :
             {
                 return [
-                    'store_id'=> 'sometimes',
-                    'role' => 'sometimes',
+                    'role_id' => 'required',
+                    'store_ids'=> 'sometimes|array',
                     'firstname' => 'required|string',
                     'lastname' => 'required|string',
                     'email' => 'required|email|unique:users',
@@ -39,8 +39,8 @@ class UserRequest extends FormRequest
             {
                 // the uniqueness is handled in the controller (because it doesn't accept its own value)
                 return [
-                    'store_id'=> 'sometimes',
-                    'role' => 'sometimes',
+                    'role_id' => 'sometimes',
+                    'store_ids'=> 'sometimes|array',
                     'firstname' => 'required|string',
                     'lastname' => 'required|string',
                     'email' => 'required|email',
@@ -52,8 +52,8 @@ class UserRequest extends FormRequest
             case 'PATCH' :
             {
                 return [
-                    'store_id'=> 'sometimes',
-                    'role' => 'sometimes',
+                    'role_id' => 'sometimes',
+                    'store_ids'=> 'sometimes|array',
                     'firstname' => 'sometimes|string',
                     'lastname' => 'sometimes|string',
                     'email' => 'sometimes||email',

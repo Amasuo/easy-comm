@@ -15,4 +15,8 @@ Route::middleware(["check-admin"])->group(function () {
     Route::post('/{id}/confirm', [RegisterAttemptController::class, 'confirm'])
     ->where('id', '[0-9]+')
     ->name('app.register-attempt.confirm');
+
+    Route::delete('/{id}', [RegisterAttemptController::class, 'delete'])
+    ->where('id', '[0-9]+')
+    ->name('app.register-attempt.delete');
 });

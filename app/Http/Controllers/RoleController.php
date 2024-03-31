@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\HTTPHeader;
 use App\Helpers\GeneralHelper;
 use App\Http\Requests\StoreRequest;
-use App\Models\Store;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
-class StoreController extends Controller
+class RoleController extends Controller
 {
     public function __construct(Request $request) {
         parent::__construct($request);
-        $this->class = Store::class;
-        $this->translationName = 'store';
+        $this->class = Role::class;
+        $this->translationName = 'role';
     }
 
     public function getAll(Request $request)
@@ -21,32 +20,15 @@ class StoreController extends Controller
         $user = auth()->user();
         $data = $this->class::query();
 
-        // if admin return only parent stores
-        if ($user->isAdmin()) {
-            $withChildren = $request->query('with-children');
-            if (!$withChildren) {
-                $data = $data->whereNull('parent_id');
-            }
-        } else { // store admin -> return only related stores
-            $parentStore = $user->store;
-            $storeIds = $parentStore->children->pluck('id')->toArray();
-            array_push($storeIds, $parentStore->id);
-            $data = $data->whereIn('id', $storeIds);
+        // if not admin hide admin role
+        if (!$user->isAdmin()) {
+            $data->where('id', '<>', 1);
         }
 
         $searchQuery = $request->query('search');
         if ($searchQuery && $this->class::SEARCHABLE) {
             foreach ($this->class::SEARCHABLE as $searchableAttribute) {
                 $data = $data->orWhere($searchableAttribute, 'like', '%' . $searchQuery . '%');
-                // if admin return only parent stores
-                if ($user->isAdmin()) {
-                    $data->whereNull('parent_id');
-                } else { // store admin -> return only related stores
-                    $parentStore = $user->store;
-                    $storeIds = $parentStore->children->pluck('id')->toArray();
-                    array_push($storeIds, $parentStore->id);
-                    $data = $data->whereIn('id', $storeIds);
-                }
             }
         }
         $data = $data->paginate(10);

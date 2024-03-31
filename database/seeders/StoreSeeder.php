@@ -2,24 +2,26 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Store;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 
-class UserSeeder extends Seeder
+class StoreSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $admin = \App\Models\Store::factory()->create([
-            'firstname' => 'ADMIN',
-            'lastname' => 'ADMIN',
-            'email' => 'admin@admin.com',
+        $store = Store::factory()->create([
+            'name' => 'Dabchi',
         ]);
 
-        $adminRole = Role::where('name','admin')->first();
-        $admin->assignRole($adminRole);
+        $store = Store::factory()->create([
+            'name' => 'Dabchek',
+            'parent_id' => 1
+        ]);
+
+        $store = Store::factory()->create([
+            'name' => 'Dbachna',
+            'parent_id' => 1
+        ]);
     }
 }
