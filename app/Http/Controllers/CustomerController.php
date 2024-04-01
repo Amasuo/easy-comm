@@ -20,7 +20,7 @@ class CustomerController extends Controller
         $data = null;
         $data = $this->class::with('store');
         if (!$user->isAdmin()) {
-            $data = $data->where('store_id', $user->store_id);
+            $data = $data->where('store_id', $user->store->id);
         }
         
         $searchQuery = $request->query('search');
@@ -58,7 +58,7 @@ class CustomerController extends Controller
         $item = new $this->class();
         $item->fill($input);
         if (!$user->isAdmin()) {
-            $item->store_id = $user->store_id;
+            $item->store_id = $user->store->id;
         }
         $item->save();
         return $this->success(__('app.' . $this->translationName . '.created'), $item);

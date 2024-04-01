@@ -26,7 +26,7 @@ class ProductController extends Controller
         $data = null;
         $data = $this->class::with('product_options');
         if (!$user->isAdmin()) {
-            $data = $data->where('store_id', $user->store_id);
+            $data = $data->where('store_id', $user->store->id);
         }
         
         $searchQuery = $request->query('search');
@@ -66,7 +66,7 @@ class ProductController extends Controller
         $item->price = $input['price'];
         $item->purchase_price = $input['purchase_price'];
         if (!$user->isAdmin()) {
-            $item->store_id = $user->store_id;
+            $item->store_id = $user->store->id;
         }
         $item->save();
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
@@ -104,8 +104,8 @@ class ProductController extends Controller
         $item->fill($input);
         $item->price = $input['price'] ?? $item->price;
         $item->purchase_price = $input['purchase_price'] ?? $item->purchase_price;
-        if ($user->isStoreAdmin()) {
-            $item->store_id = $user->store_id;
+        if (!$user->isAdmin()) {
+            $item->store_id = $user->store->id;
         }
         $item->save();
         if ($request->hasFile('image')) {

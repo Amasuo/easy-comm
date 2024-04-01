@@ -30,6 +30,8 @@ class Product extends Model implements HasMedia
         'store_id',
         'name',
         'product_gender_id',
+        'price_int',
+        'purchase_price_int',
     ];
 
     protected $appends = [

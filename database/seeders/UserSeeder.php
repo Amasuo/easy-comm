@@ -19,38 +19,58 @@ class UserSeeder extends Seeder
             'firstname' => 'ADMIN',
             'lastname' => 'ADMIN',
             'email' => 'admin@admin.com',
-            'phone' => '12345678',
         ]);
         $admin->assignAdminRole();
 
         $storeAdmin = \App\Models\User::factory()->create([
-            'firstname' => 'StoreAdmin',
-            'lastname' => 'StoreAdmin',
-            'email' => 'store@admin.com',
-            'phone' => '12345677',
+            'firstname' => 'dabchiAdmin',
+            'lastname' => 'dabchiAdmin',
+            'email' => 'dabchi@admin.com',
         ]);
 
         $storeAdmin->addStore(Store::findOrFail(1), isAdmin: true);
-        $storeAdmin->addStore(Store::findOrFail(2), isAdmin: true);
-        $storeAdmin->addStore(Store::findOrFail(3), isAdmin: true);
 
         $storeSimple = \App\Models\User::factory()->create([
-            'firstname' => 'StoreSimple',
-            'lastname' => 'StoreSimple',
-            'email' => 'store@simple.com',
-            'phone' => '12345688',
+            'firstname' => 'dabchiSimple',
+            'lastname' => 'dabchiSimple',
+            'email' => 'dabchi@simple.com',
         ]);
 
         $storeSimple->addStore(Store::findOrFail(1), isAdmin: false);
         $storeSimple->addStore(Store::findOrFail(2), isAdmin: false);
 
         $storeSimple2 = \App\Models\User::factory()->create([
-            'firstname' => 'StoreSimple2',
-            'lastname' => 'StoreSimple2',
-            'email' => 'store@simple2.com',
-            'phone' => '12345699',
+            'firstname' => 'dabchiSimple2',
+            'lastname' => 'dabchiSimple2',
+            'email' => 'dabchi@simple2.com',
         ]);
 
         $storeSimple2->addStore(Store::findOrFail(3), isAdmin: false);
+
+
+        $storeAdmin = \App\Models\User::factory()->create([
+            'firstname' => '7weyjiAdmin',
+            'lastname' => '7weyjiAdmin',
+            'email' => '7weyji@admin.com',
+        ]);
+
+        $storeAdmin->addStore(Store::findOrFail(4), isAdmin: true);
+
+        $storeSimple = \App\Models\User::factory()->create([
+            'firstname' => '7weyjiSimple',
+            'lastname' => '7weyjiSimple',
+            'email' => '7weyji@simple.com',
+        ]);
+
+        $storeSimple->addStore(Store::findOrFail(4), isAdmin: false);
+        $storeSimple->addStore(Store::findOrFail(5), isAdmin: false);
+
+        $storeSimple2 = \App\Models\User::factory()->create([
+            'firstname' => '7weyjiSimple2',
+            'lastname' => '7weyjiSimple2',
+            'email' => '7weyji@simple2.com',
+        ]);
+
+        $storeSimple2->addStore(Store::findOrFail(5), isAdmin: false);
     }
 }

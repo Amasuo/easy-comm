@@ -23,7 +23,7 @@ class CheckUserAndOrderRelatedMiddleware
         if (!$order) {
             abort(HTTPHeader::NOT_FOUND, __('app.order.model-not-found'));
         }
-        if (!$user->isAdmin() && $order->store_id != $user->store_id) {
+        if (!$user->isAdmin() && !in_array($user->getRelatedStoresQuery()->pluck('id')->toArray(), $order->store_id)) {
             abort(HTTPHeader::FORBIDDEN, __('unauthorized'));
         }
         return $next($request);

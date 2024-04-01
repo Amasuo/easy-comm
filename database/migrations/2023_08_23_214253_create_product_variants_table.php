@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('product_id')->nullable()->constrained('products')->onDelete('cascade');
             $table->integer('stock');
             $table->integer('custom_price_int')->nullable();
-            $table->integer('custom_purchase_price_int');
+            $table->integer('custom_purchase_price_int')->nullable();
             $table->timestamps();
         });
     }

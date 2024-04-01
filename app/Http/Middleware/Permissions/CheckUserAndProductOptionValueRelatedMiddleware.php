@@ -31,7 +31,7 @@ class CheckUserAndProductOptionValueRelatedMiddleware
         if (!$product) {
             abort(HTTPHeader::NOT_FOUND, __('app.product-option-value.product-option.product.model-not-found'));
         }
-        if (!$user->isAdmin() && $product->store_id != $user->store_id) {
+        if (!$user->isAdmin() && $product->store_id != $user->store->id) {
             abort(HTTPHeader::FORBIDDEN, __('unauthorized'));
         }
         return $next($request);

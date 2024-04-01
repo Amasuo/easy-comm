@@ -23,7 +23,7 @@ class ProductVariantController extends Controller
         $data = $this->class::query();
         if (!$user->isAdmin()) {
             $data = $data->whereHas('product', function ($query) use ($user) {
-                $query->where('store_id', $user->store_id);
+                $query->where('store_id', $user->store->id);
             });
         }
         $searchQuery = $request->query('search');

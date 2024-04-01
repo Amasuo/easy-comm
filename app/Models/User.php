@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
@@ -153,8 +154,8 @@ class User extends Authenticatable
     //get users for store admin
     public function getRelatedUsersQuery()
     {
-        $storesIds = $this->stores()->pluck('store_id');
-        $usersIds = RoleStoreUser::whereIn('store_id', $storesIds)->pluck('user_id');
+        $storeIds = $this->getRelatedStoresQuery()->pluck('id');
+        $usersIds = RoleStoreUser::whereIn('store_id', $storeIds)->pluck('user_id');
         return User::whereIn('id', $usersIds);
     }
 
@@ -163,6 +164,6 @@ class User extends Authenticatable
     {
         $parentStore = $this->store;
         return Store::where('id', $parentStore->id) // parent
-            ->where('parent_id', $parentStore->id); // plus children
+            ->orWhere('parent_id', $parentStore->id); // plus children
     }
 }

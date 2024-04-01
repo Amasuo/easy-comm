@@ -18,8 +18,12 @@ class CheckUserAndStoreRelatedMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $user = auth()->user();
+        if ($user->isAdmin()) {
+            return $next($request);
+        }
         $requestedStoreId = $request->id;
-        if (!$user->isAdmin() && $requestedStoreId != $user->store_id) {
+        $relatedStoreIds = $user->getRelatedStoresQuery()->pluck('id')->toArray();
+        if (!in_array($requestedStoreId, $relatedStoreIds)) {
             abort(HTTPHeader::FORBIDDEN, __('unauthorized'));
         }
         return $next($request);

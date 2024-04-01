@@ -21,7 +21,7 @@ class DeliveryDriverController extends Controller
         if ($user->isAdmin()) {
             $data = $this->class::query();
         } else {
-            $data = $this->class::where('store_id', $user->store_id);
+            $data = $this->class::where('store_id', $user->store->id);
         }
         
         $searchQuery = $request->query('search');
@@ -58,8 +58,8 @@ class DeliveryDriverController extends Controller
         $input = $request->validated();
         $item = new $this->class();
         $item->fill($input);
-        if ($user->isStoreAdmin()) {
-            $item->store_id = $user->store_id;
+        if (!$user->isAdmin()) {
+            $item->store_id = $user->store->id;
         }
         $item->save();
         return $this->success(__('app.' . $this->translationName . '.created'), $item);
@@ -72,8 +72,8 @@ class DeliveryDriverController extends Controller
         $item = $this->class::findOrFail($this->modelId);
         $input = $request->validated();
         $item->fill($input);
-        if ($user->isStoreAdmin()) {
-            $item->store_id = $user->store_id;
+        if (!$user->isAdmin()) {
+            $item->store_id = $user->store->id;
         }
         $item->save();
         return $this->success(__('app.' . $this->translationName . '.updated'), $item);

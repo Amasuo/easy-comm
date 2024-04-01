@@ -22,7 +22,7 @@ class OrderController extends Controller
         $user = auth()->user();
         $data = $this->class::query();
         if (!$user->isAdmin()) {
-            $data = $data->where('store_id', $user->store_id);
+            $data = $data->where('store_id', $user->store->id);
         }
 
         $filter = $request->query('filter');
@@ -62,7 +62,7 @@ class OrderController extends Controller
         $item->fill($input);
 
         if (!$user->isAdmin()) {
-            $item->store_id = $user->store_id;
+            $item->store_id = $user->store->id;
         }
 
         // find or create customer
