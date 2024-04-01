@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\OrderProductVariant;
 use Illuminate\Database\Seeder;
 
 class OrderSeeder extends Seeder
@@ -22,6 +23,18 @@ class OrderSeeder extends Seeder
                 'state' => $customer->state,
                 'city' => $customer->city,
                 'street' => $customer->street,
+            ]);
+
+            $orderProductVariant = OrderProductVariant::create([
+                'order_id' => $order->id,
+                'product_variant_id' => fake()->numberBetween(1, 3),
+                'count' => fake()->numberBetween(1, 5),
+            ]);
+
+            $orderProductVariant = OrderProductVariant::create([
+                'order_id' => $order->id,
+                'product_variant_id' => fake()->numberBetween(4, 6),
+                'count' => fake()->numberBetween(1, 5),
             ]);
         }
     }

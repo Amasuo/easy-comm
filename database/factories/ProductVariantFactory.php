@@ -12,7 +12,7 @@ class ProductVariantFactory extends Factory
     public function definition(): array
     {
         return [
-            'stock' => fake()->randomNumber(2),
+            'stock' => fake()->numberBetween(50, 99),
         ];
     }
 }
