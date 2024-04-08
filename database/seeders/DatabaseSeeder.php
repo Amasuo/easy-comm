@@ -20,8 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LanguageSeeder::class);
         $this->call(ProductGenderSeeder::class);
         $this->call(ProductSeeder::class);
-        $this->call(ProductOptionSeeder::class);
-        $this->call(ProductVariantSeeder::class);
         $this->call(CustomerSeeder::class);
         $this->call(OrderSeeder::class);
     }

@@ -22,7 +22,7 @@ class RoleController extends Controller
 
         // if not admin hide admin role
         if (!$user->isAdmin()) {
-            $data->where('id', '<>', 1);
+            $data->whereNotIn('id', [1]);
         }
 
         $searchQuery = $request->query('search');

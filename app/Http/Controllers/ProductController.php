@@ -65,7 +65,11 @@ class ProductController extends Controller
         $item->fill($input);
         $item->price = $input['price'];
         $item->purchase_price = $input['purchase_price'];
-        if (!$user->isAdmin()) {
+        if (!$user->isAdmin() && 
+                (!in_array('store_id', $input) || 
+                    (in_array('store_id', $input) && $input['store_id'] == null)
+                )
+        ) {
             $item->store_id = $user->store->id;
         }
         $item->save();
@@ -104,7 +108,11 @@ class ProductController extends Controller
         $item->fill($input);
         $item->price = $input['price'] ?? $item->price;
         $item->purchase_price = $input['purchase_price'] ?? $item->purchase_price;
-        if (!$user->isAdmin()) {
+        if (!$user->isAdmin() && 
+                (!in_array('store_id', $input) || 
+                    (in_array('store_id', $input) && $input['store_id'] == null)
+                )
+        ) {
             $item->store_id = $user->store->id;
         }
         $item->save();

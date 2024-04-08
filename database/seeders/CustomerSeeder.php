@@ -9,15 +9,11 @@ class CustomerSeeder extends Seeder
 {
     public function run(): void
     {
-        for ($i = 0; $i < 5; $i++) {
-            $customer = Customer::factory()->create([
-                'store_id' => 1
-            ]);
-        }
+        $numCustomers = 500;
 
-        for ($i = 0; $i < 5; $i++) {
-            $customer = Customer::factory()->create([
-                'store_id' => 4
+        for ($i = 0; $i < $numCustomers; $i++) {
+            Customer::factory()->create([
+                'store_id' => fake()->randomElement([1 ,4]),
             ]);
         }
     }

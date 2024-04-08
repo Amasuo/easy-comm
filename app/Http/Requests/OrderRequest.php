@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\ProductVariant;
 use Closure;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class OrderRequest extends FormRequest
 {
@@ -27,7 +28,7 @@ class OrderRequest extends FormRequest
             case 'POST' :
             {
                 return [
-                    'store_id' => 'sometimes|exists:stores,id|nullable',
+                    'store_id' => 'nullable',
                     'delivery_company_id' => 'sometimes|exists:delivery_companies,id|nullable',
                     'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id|nullable',
                     'customer_id' => 'sometimes|exists:customers,id|nullable',
@@ -44,7 +45,7 @@ class OrderRequest extends FormRequest
             case 'PUT' :
             {
                 return [
-                    'store_id' => 'sometimes|exists:stores,id|nullable',
+                    'store_id' => 'nullable',
                     'delivery_company_id' => 'sometimes|exists:delivery_companies,id|nullable',
                     'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id|nullable',
                     'customer_id' => 'sometimes|exists:customers,id|nullable',
@@ -61,7 +62,7 @@ class OrderRequest extends FormRequest
             case 'PATCH' :
             {
                 return [
-                    'store_id' => 'sometimes|exists:stores,id|nullable',
+                    'store_id' => 'nullable',
                     'delivery_company_id' => 'sometimes|exists:delivery_companies,id|nullable',
                     'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id|nullable',
                     'customer_id' => 'sometimes|exists:customers,id|nullable',

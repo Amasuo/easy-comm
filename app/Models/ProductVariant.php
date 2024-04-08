@@ -15,6 +15,10 @@ class ProductVariant extends Model implements HasMedia
     use HasFactory, InteractsWithMedia;
     protected $table = 'product_variants';
 
+    const SEARCHABLE = [
+        '',
+    ];
+
     protected $with = [
         'product',
         'product_option_values'

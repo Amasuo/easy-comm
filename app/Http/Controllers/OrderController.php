@@ -46,7 +46,6 @@ class OrderController extends Controller
     public function store(OrderRequest $request)
     {
         $user = auth()->user();
-
         $input = $request->validated();
 
         // check stock of product variants passed first (example of product variant passed : {"id" => 1, "count" => 4})
@@ -111,10 +110,14 @@ class OrderController extends Controller
     // @todo : enable updating product variants of an order
     public function update(OrderRequest $request)
     {
+        $user = auth()->user();
         $this->validateId();
         $item = $this->class::findOrFail($this->modelId);
         $input = $request->validated();
         $item->fill($input);
+        if (!$user->isAdmin()) {
+            $item->store_id = $user->store->id;
+        }
         $item->save();
 
         $customer = $item->customer;

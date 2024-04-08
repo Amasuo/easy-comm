@@ -59,10 +59,16 @@ class StoreController extends Controller
 
     public function store(StoreRequest $request)
     {
+        $user = auth()->user();
+
         $input = $request->validated();
         $item = new $this->class();
         $item->fill($input);
         $item->save();
+
+        if ($user->isStoreAdmin()) {
+            $item->addUser($user, isAdmin: true);
+        }
 
         return $this->success(__('app.' . $this->translationName . '.created'), $item);
     }
