@@ -29,11 +29,7 @@ class ProductVariantController extends Controller
         $searchQuery = $request->query('search');
         if ($searchQuery && $this->class::SEARCHABLE) {
             foreach ($this->class::SEARCHABLE as $searchableAttribute) {
-                if ($searchableAttribute == 'id') {
-                    $data = $data->orWhere('id',$searchQuery);
-                } else {
-                    $data = $data->orWhere($searchableAttribute, 'like', '%' . $searchQuery . '%');
-                }
+                $data = $data->orWhere($searchableAttribute, 'like', '%' . $searchQuery . '%');
             }
         }
 
