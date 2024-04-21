@@ -3,26 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Enums\HTTPHeader;
-use App\Models\Role;
+use App\Models\OrderStatus;
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class OrderStatusController extends Controller
 {
     public function __construct(Request $request) {
         parent::__construct($request);
-        $this->class = Role::class;
-        $this->translationName = 'role';
+        $this->class = OrderStatus::class;
+        $this->translationName = 'order-status';
     }
 
     public function getAll(Request $request)
     {
         $user = auth()->user();
         $data = $this->class::query();
-
-        // if not admin hide admin role
-        if (!$user->isAdmin()) {
-            $data->whereNotIn('id', [1]);
-        }
 
         $searchQuery = $request->query('search');
         if ($searchQuery && $this->class::SEARCHABLE) {

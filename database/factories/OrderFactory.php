@@ -12,6 +12,8 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
+            'order_status_id' => fake()->numberBetween(1, 6),
+            'delivery_company_id' => fake()->numberBetween(1, 2),
             'firstname' => fake()->firstname(),
             'lastname' => fake()->lastname(),
             'phone' => fake()->randomNumber(8),

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\OrderObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,6 +17,7 @@ class Order extends Model
     protected $table = 'orders';
 
     protected $fillable = [
+        'order_status_id',
         'store_id',
         'customer_id',
         'delivery_company_id',
@@ -26,10 +28,14 @@ class Order extends Model
         'state',
         'city',
         'street',
+        'chat_link',
+        'delivery_comments',
+        'internal_comments',
         'delivered_at',
     ];
 
     protected $with = [
+        'order_status',
         'store',
         'customer',
         'delivery_company',
@@ -40,6 +46,11 @@ class Order extends Model
     protected $casts = [
         'delivered_at' => 'datetime',
     ];
+
+    public function order_status(): BelongsTo
+    {
+        return $this->belongsTo(OrderStatus::class, 'order_status_id');
+    }
 
     public function store(): BelongsTo
     {

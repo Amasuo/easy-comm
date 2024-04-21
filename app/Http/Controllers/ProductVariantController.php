@@ -62,9 +62,17 @@ class ProductVariantController extends Controller
         $input = $request->validated();
         $item = new $this->class();
         $item->fill($input);
-        $item->price = $input['price'] ?? null;
-        $item->purchase_price = $input['purchase_price'] ?? null;
         $item->save();
+
+        $product = $item->product;
+        if ($input['price'] && $input['price'] != $product->price) {
+            $item->price = $input['price'];
+        }
+        if ($input['purchase_price'] && $input['purchase_price'] != $product->purchase_price) {
+            $item->purchase_price = $input['purchase_price'];
+        }
+        $item->save();
+
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $item->addMediaFromRequest('image')->toMediaCollection('main');
         }

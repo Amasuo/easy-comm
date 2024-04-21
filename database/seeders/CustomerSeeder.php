@@ -9,7 +9,7 @@ class CustomerSeeder extends Seeder
 {
     public function run(): void
     {
-        $numCustomers = 500;
+        $numCustomers = 50;
 
         for ($i = 0; $i < $numCustomers; $i++) {
             Customer::factory()->create([

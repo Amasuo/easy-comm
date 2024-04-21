@@ -93,4 +93,9 @@ Route::middleware('auth:api')->group(function () {
     Route::name('app.role')
     ->prefix('role')
     ->group(__DIR__ . '/api/role.php');
+
+    /** order status routes */
+    Route::name('app.order-status')
+    ->prefix('order-status')
+    ->group(__DIR__ . '/api/order-status.php');
 });

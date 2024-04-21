@@ -38,6 +38,7 @@ class CustomerRequest extends FormRequest
             {
                 return [
                     'store_id' => 'sometimes|exists:stores,id|nullable',
+                    'is_forbidden' => 'required|boolean',
                     'firstname' => 'required|string',
                     'lastname' => 'required|string',
                     'phone' => 'required|string',
@@ -50,6 +51,7 @@ class CustomerRequest extends FormRequest
             {
                 return [
                     'store_id' => 'sometimes|exists:stores,id|nullable',
+                    'is_forbidden' => 'sometimes|boolean',
                     'firstname' => 'sometimes|string|nullable',
                     'lastname' => 'sometimes|string|nullable',
                     'phone' => 'sometimes|string|nullable',

@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->uuid('public_id')->default(DB::raw('(UUID())'));
+            $table->string('reference')->unique()->nullable();
+            $table->foreignId('order_status_id')->constrained('order_statuses')->onDelete('cascade');
             $table->foreignId('store_id')->constrained('stores')->onDelete('cascade');
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->foreignId('delivery_company_id')->nullable()->constrained('delivery_companies')->onDelete('cascade');
@@ -24,6 +26,9 @@ return new class extends Migration
             $table->string('state');
             $table->string('city');
             $table->string('street')->nullable();
+            $table->string('chat_link')->nullable();
+            $table->string('delivery_comments')->nullable();
+            $table->string('internal_comments')->nullable();
             $table->timestamp('delivered_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

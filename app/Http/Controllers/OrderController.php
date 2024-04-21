@@ -59,6 +59,7 @@ class OrderController extends Controller
 
         $item = new $this->class();
         $item->fill($input);
+        $item->order_status_id = 1;
 
         if (!$user->isAdmin()) {
             $item->store_id = $user->store->id;

@@ -13,14 +13,13 @@ class OrderSeeder extends Seeder
 {
     public function run(): void
     {
-        $numOrders = 1500;
+        $numOrders = 150;
 
         for ($i = 0; $i < $numOrders; $i++) {
             $customer = Customer::inRandomOrder()->first();
             $order = Order::factory()->create([
                 'store_id' => $customer->store_id,
                 'customer_id' => $customer->id,
-                'delivery_company_id' => fake()->numberBetween(1, 2),
                 'delivery_driver_id' => DeliveryDriver::where('store_id', $customer->store_id)->inRandomOrder()->first()->id,
                 'firstname' => $customer->firstname,
                 'lastname' => $customer->lastname,

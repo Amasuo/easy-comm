@@ -28,6 +28,7 @@ class Customer extends Model
 
     protected $fillable = [
         'store_id',
+        'is_forbidden',
         'firstname',
         'lastname',
         'phone',
@@ -38,6 +39,10 @@ class Customer extends Model
 
     protected $appends = [
         'fullname',
+    ];
+
+    protected $casts = [
+        'is_forbidden' => 'bool',
     ];
 
     public function getFullnameAttribute(): string

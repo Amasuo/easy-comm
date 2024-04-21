@@ -45,6 +45,7 @@ class OrderRequest extends FormRequest
             case 'PUT' :
             {
                 return [
+                    'order_status_id' => 'sometimes|exists:order_statuses,id|nullable',
                     'store_id' => 'nullable',
                     'delivery_company_id' => 'sometimes|exists:delivery_companies,id|nullable',
                     'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id|nullable',
@@ -56,12 +57,13 @@ class OrderRequest extends FormRequest
                     'state' => 'required|string',
                     'city' => 'required|string',
                     'street' => 'sometimes|string|nullable',
-                    'delivered_at' => 'sometimes|date',
+                    'delivered_at' => 'sometimes|date|nullable',
                 ];
             }
             case 'PATCH' :
             {
                 return [
+                    'order_status_id' => 'sometimes|exists:order_statuses,id|nullable',
                     'store_id' => 'nullable',
                     'delivery_company_id' => 'sometimes|exists:delivery_companies,id|nullable',
                     'delivery_driver_id' => 'sometimes|exists:delivery_drivers,id|nullable',
@@ -73,7 +75,7 @@ class OrderRequest extends FormRequest
                     'state' => 'sometimes|string|nullable',
                     'city' => 'sometimes|string|nullable',
                     'street' => 'sometimes|string|nullable',
-                    'delivered_at' => 'sometimes|date',
+                    'delivered_at' => 'sometimes|date|nullable',
                 ];
             }
             default :
