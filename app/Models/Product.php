@@ -32,6 +32,7 @@ class Product extends Model implements HasMedia
         'product_gender_id',
         'price_int',
         'purchase_price_int',
+        'is_active'
     ];
 
     protected $appends = [
@@ -44,6 +45,10 @@ class Product extends Model implements HasMedia
         'price_int',
         'purchase_price_int',
         'media',
+    ];
+
+    protected $casts = [
+        'is_active' => 'bool',
     ];
 
     public function registerMediaCollections(): void
@@ -96,6 +101,15 @@ class Product extends Model implements HasMedia
     {
         $intValue = intval(round($value * 10), 0);
         $this->attributes['purchase_price_int'] = $intValue;
+    }
+
+    public function setIsActiveAttribute($value)
+    {
+        $this->attributes['is_active'] = $value;
+
+        ProductVariant::whereIn('id', $this->product_variants()->pluck('id'))->update([
+            'is_active' => $value,
+        ]);
     }
 
     public function store(): BelongsTo

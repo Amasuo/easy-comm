@@ -29,6 +29,7 @@ class ProductVariantRequest extends FormRequest
                     'stock' => 'required|numeric',
                     'price' => 'sometimes|numeric|nullable',
                     'purchase_price' => 'sometimes|numeric|nullable',
+                    'is_active' => 'required|boolean',
                     'image' => 'sometimes',
                     'product_option_values' => 'sometimes',
                 ];
@@ -40,6 +41,7 @@ class ProductVariantRequest extends FormRequest
                     'stock' => 'required|numeric',
                     'price' => 'sometimes|numeric|nullable',
                     'purchase_price' => 'sometimes|numeric|nullable',
+                    'is_active' => 'required|boolean',
                     'image' => 'sometimes',
                     'product_option_values' => 'sometimes',
                 ];
@@ -51,6 +53,7 @@ class ProductVariantRequest extends FormRequest
                     'stock' => 'sometimes|numeric',
                     'price' => 'sometimes|numeric|nullable',
                     'purchase_price' => 'sometimes|numeric|nullable',
+                    'is_active' => 'required|boolean',
                     'image' => 'sometimes',
                     'product_option_values' => 'sometimes',
                 ];

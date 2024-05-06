@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('price_int');
             $table->integer('purchase_price_int');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

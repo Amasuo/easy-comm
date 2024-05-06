@@ -26,6 +26,7 @@ class ProductVariant extends Model implements HasMedia
     protected $fillable = [
         'product_id',
         'stock',
+        'is_active'
     ];
 
     protected $appends = [
@@ -39,6 +40,10 @@ class ProductVariant extends Model implements HasMedia
         'custom_price_int',
         'custom_purchase_price_int',
         'media',
+    ];
+
+    protected $casts = [
+        'is_active' => 'bool',
     ];
 
     public function registerMediaCollections(): void
@@ -123,6 +128,26 @@ class ProductVariant extends Model implements HasMedia
     {
         $intValue = intval(round($value * 10), 0);
         $this->attributes['custom_purchase_price_int'] = $intValue;
+    }
+
+    public function getIsActiveAttribute()
+    {
+        $productIsActive = $this->product->is_active;
+        if ($productIsActive) {
+            return (bool)$this->attributes['is_active'];
+        } else {
+            return false;
+        }
+    }
+
+    public function setIsActiveAttribute($value)
+    {
+        $productIsActive = $this->product->is_active;
+        if ($productIsActive) {
+            $this->attributes['is_active'] = $value;
+        } else {
+            $this->attributes['is_active'] = false;
+        }
     }
 
     public function product(): BelongsTo

@@ -90,6 +90,11 @@ class ProductVariantController extends Controller
         $this->validateId();
         $item = $this->class::findOrFail($this->modelId);
         $input = $request->validated();
+        if ($input['is_active'] == true) {
+            if (!$item->product->is_active) {
+                return $this->failure(__('app.' . $this->translationName . '.product-inactive'));   
+            }
+        }
         $item->fill($input);
         $item->price = $input['price'] ?? null;
         $item->purchase_price = $input['purchase_price'] ?? null;

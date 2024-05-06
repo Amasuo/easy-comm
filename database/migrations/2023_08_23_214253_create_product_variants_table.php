@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('stock');
             $table->integer('custom_price_int')->nullable();
             $table->integer('custom_purchase_price_int')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
