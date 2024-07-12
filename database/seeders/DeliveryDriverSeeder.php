@@ -20,6 +20,26 @@ class DeliveryDriverSeeder extends Seeder
         ]);
 
         DeliveryDriver::factory()->create([
+            'delivery_company_id' => 1,
+            'store_id' => 6,
+        ]);
+
+        DeliveryDriver::factory()->create([
+            'delivery_company_id' => 1,
+            'store_id' => 7,
+        ]);
+
+        DeliveryDriver::factory()->create([
+            'delivery_company_id' => 1,
+            'store_id' => 8,
+        ]);
+
+        DeliveryDriver::factory()->create([
+            'delivery_company_id' => 1,
+            'store_id' => 9,
+        ]);
+
+        DeliveryDriver::factory()->create([
             'delivery_company_id' => 2,
             'store_id' => 1,
         ]);
@@ -27,6 +47,26 @@ class DeliveryDriverSeeder extends Seeder
         DeliveryDriver::factory()->create([
             'delivery_company_id' => 2,
             'store_id' => 4,
+        ]);
+
+        DeliveryDriver::factory()->create([
+            'delivery_company_id' => 2,
+            'store_id' => 6,
+        ]);
+
+        DeliveryDriver::factory()->create([
+            'delivery_company_id' => 2,
+            'store_id' => 7,
+        ]);
+
+        DeliveryDriver::factory()->create([
+            'delivery_company_id' => 2,
+            'store_id' => 8,
+        ]);
+
+        DeliveryDriver::factory()->create([
+            'delivery_company_id' => 2,
+            'store_id' => 9,
         ]);
     }
 }

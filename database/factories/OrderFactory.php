@@ -20,7 +20,7 @@ class OrderFactory extends Factory
             'state' => fake()->randomElement(['Tunis', 'Monastir', 'Sousse', 'Nabeul', 'Gafsa', 'Beja']),
             'city' => fake()->city(),
             'street' => fake()->streetAddress(),
-            'delivered_at' => now()->addDays(fake()->numberBetween(1, 3))
+            'delivered_at' => now()->addDays(fake()->numberBetween(1, 3)),
         ];
     }
 }

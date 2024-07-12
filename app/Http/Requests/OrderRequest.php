@@ -39,6 +39,9 @@ class OrderRequest extends FormRequest
                     'state' => 'required|string',
                     'city' => 'required|string',
                     'street' => 'sometimes|string|nullable',
+                    'chat_link' => 'sometimes|nullable',
+                    'delivery_comments' => 'sometimes|nullable',
+                    'internal_comments' => 'sometimes|nullable',
                     'delivered_at' => 'sometimes|date|nullable',
                 ];
             }
@@ -57,6 +60,9 @@ class OrderRequest extends FormRequest
                     'state' => 'required|string',
                     'city' => 'required|string',
                     'street' => 'sometimes|string|nullable',
+                    'chat_link' => 'sometimes|nullable',
+                    'delivery_comments' => 'sometimes|nullable',
+                    'internal_comments' => 'sometimes|nullable',
                     'delivered_at' => 'sometimes|date|nullable',
                 ];
             }
@@ -75,6 +81,9 @@ class OrderRequest extends FormRequest
                     'state' => 'sometimes|string|nullable',
                     'city' => 'sometimes|string|nullable',
                     'street' => 'sometimes|string|nullable',
+                    'chat_link' => 'sometimes|nullable',
+                    'delivery_comments' => 'sometimes|nullable',
+                    'internal_comments' => 'sometimes|nullable',
                     'delivered_at' => 'sometimes|date|nullable',
                 ];
             }

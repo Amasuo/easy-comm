@@ -36,5 +36,25 @@ class StoreSeeder extends Seeder
             'name' => '7weyjek',
             'parent_id' => 4
         ]);
+
+        // 6
+        $store = Store::factory()->create([
+            'name' => '9ach',
+        ]);
+
+        // 7
+        $store = Store::factory()->create([
+            'name' => 'Sel3a',
+        ]);
+
+        // 8
+        $store = Store::factory()->create([
+            'name' => '3atar',
+        ]);
+
+        // 9
+        $store = Store::factory()->create([
+            'name' => 'DS',
+        ]);
     }
 }

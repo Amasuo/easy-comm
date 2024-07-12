@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Controller;
+use App\Helpers\DashboardHelper;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
@@ -21,6 +22,8 @@ Route::post('logout', [AuthController::class, 'logout']);
 
 /** Routes under auth middleware (routes that need authentication) */
 Route::middleware('auth:api')->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'getAll']);
+    
     Route::match(['put', 'patch'],'/account', [AuthController::class, 'update'])
         ->name('app.user.account.update');
 

@@ -16,6 +16,7 @@ class OrderProductVariant extends Model
         'order_id',
         'product_variant_id',
         'count',
+        'created_at'
     ];
 
     public function order(): BelongsTo

@@ -12,7 +12,15 @@ class OrderObserver
      */
     public function creating(Order $order): void
     {
-        $order->reference = strtoupper(Str::random(3)) . rand(101, 999);
+        $validReference = false;
+        while (!$validReference) {
+            $reference = strtoupper(Str::random(4)) . rand(101, 999);
+            $existingOrder = Order::where('reference', $reference)->first();
+            if (!$existingOrder) {
+                $validReference = true;
+            }
+        }
+        $order->reference = $reference;
     }
 
     /**

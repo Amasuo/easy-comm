@@ -18,6 +18,7 @@ class Product extends Model implements HasMedia
 
     const SEARCHABLE = [
         'name',
+        'id'
     ];
 
     protected $with = [
@@ -32,7 +33,6 @@ class Product extends Model implements HasMedia
         'product_gender_id',
         'price_int',
         'purchase_price_int',
-        'is_active'
     ];
 
     protected $appends = [
@@ -76,7 +76,7 @@ class Product extends Model implements HasMedia
 
     public function getImageAttribute()
     {
-        return $this->getFirstMedia('main') ? $this->getFirstMedia('main')->original_url : null;
+        return $this->getFirstMedia('main') ? $this->getFirstMedia('main')->original_url : 'https://lh3.googleusercontent.com/proxy/rIUqw4tw9NQDFOvpLbgm3oXDeLNuqBwVsA0HgjW3TeuZqGRIbLZsysbgAjephKJ81mLWFZ4Vq_yQB5kFF3JGdvRYbhEB9NTNpZuy56_ncqO_USmdC-YF-SuCvLhvoNw';
     }
 
     // example : stored as 1235 -> return 123.5 (dt)

@@ -2,8 +2,6 @@
 
 namespace App\Helpers;
 
-use App\Models\User;
-
 class GeneralHelper
 {
     public static function valueTakenForClassAttribute($class, $attribute, $value, $modelId)

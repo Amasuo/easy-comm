@@ -32,6 +32,7 @@ class Order extends Model
         'delivery_comments',
         'internal_comments',
         'delivered_at',
+        'created_at'
     ];
 
     protected $with = [

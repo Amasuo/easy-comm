@@ -13,9 +13,10 @@ class OrderSeeder extends Seeder
 {
     public function run(): void
     {
-        $numOrders = 150;
+        $numOrders = 1500;
 
         for ($i = 0; $i < $numOrders; $i++) {
+            $createdAt = now()->subDays(rand(0, 365));
             $customer = Customer::inRandomOrder()->first();
             $order = Order::factory()->create([
                 'store_id' => $customer->store_id,
@@ -27,6 +28,7 @@ class OrderSeeder extends Seeder
                 'state' => $customer->state,
                 'city' => $customer->city,
                 'street' => $customer->street,
+                'created_at' => $createdAt,
             ]);
 
             $orderProductVariant = OrderProductVariant::create([
@@ -35,6 +37,7 @@ class OrderSeeder extends Seeder
                     return $query->where('store_id', $order->store_id);
                 })->inRandomOrder()->first()->id,
                 'count' => fake()->numberBetween(1, 3),
+                'created_at' => $createdAt,
             ]);
 
             OrderProductVariant::create([
@@ -44,6 +47,7 @@ class OrderSeeder extends Seeder
                         return $query->where('store_id', $order->store_id);
                     })->inRandomOrder()->first()->id,
                 'count' => fake()->numberBetween(1, 3),
+                'created_at' => $createdAt,
             ]);
         }
     }

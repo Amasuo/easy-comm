@@ -63,6 +63,7 @@ class ProductController extends Controller
         $input = $request->validated();
         $item = new $this->class();
         $item->fill($input);
+        $item->is_active = $input['is_active'];
         $item->price = $input['price'];
         $item->purchase_price = $input['purchase_price'];
         if (!$user->isAdmin() && 
@@ -106,11 +107,12 @@ class ProductController extends Controller
         $item = $this->class::findOrFail($this->modelId);
         $input = $request->validated();
         $item->fill($input);
+        $item->is_active = ($input['is_active'] == 'true');
         $item->price = $input['price'] ?? $item->price;
         $item->purchase_price = $input['purchase_price'] ?? $item->purchase_price;
         if (!$user->isAdmin() && 
-                (!in_array('store_id', $input) || 
-                    (in_array('store_id', $input) && $input['store_id'] == null)
+                (!array_key_exists('store_id', $input) || 
+                    (array_key_exists('store_id', $input) && $input['store_id'] == null)
                 )
         ) {
             $item->store_id = $user->store->id;
