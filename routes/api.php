@@ -2,6 +2,7 @@
 
 use App\Helpers\DashboardHelper;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
@@ -16,9 +17,9 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
-Route::post('logout', [AuthController::class, 'logout']);
+Route::post('register', [AuthController::class, 'register'])->name('register');
+Route::post('login', [AuthController::class, 'login'])->name('login');
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 /** Routes under auth middleware (routes that need authentication) */
 Route::middleware('auth:api')->group(function () {

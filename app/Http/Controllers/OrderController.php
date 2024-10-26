@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Enums\HTTPHeader;
 use App\Http\Requests\OrderRequest;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\ProductVariant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
+use Spatie\LaravelPdf\Facades\Pdf;
 
 class OrderController extends Controller
 {
@@ -35,7 +39,20 @@ class OrderController extends Controller
             }
         }
 
-        $data = $data->paginate(10);
+        $startDate = $request->query('startDate');
+        $endDate = $request->query(key: 'endDate');
+        if($startDate && $endDate && $startDate == $endDate) {
+            $data = $data->whereDate('created_at', $startDate);
+        } else {
+            if($startDate) {
+                $data = $data->where('created_at', '>=', $startDate);
+            }
+            if($endDate) {
+                $data = $data->where('created_at', '<=', $endDate);
+            }
+        }
+        
+        $data = $data->orderBy('created_at', 'desc')->paginate(10);
         if (!$data) {
             return $this->failure(__('app.' . $this->translationName . '.model-not-found'), HTTPHeader::NOT_FOUND);
         }

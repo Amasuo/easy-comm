@@ -27,6 +27,7 @@ class StoreRequest extends FormRequest
                 return [
                     'name' => 'required|string|unique:stores',
                     'patent_number' => 'sometimes|string|unique:stores',
+                    'image' => 'sometimes',
                 ];
             }
             case 'PUT' :
@@ -34,6 +35,7 @@ class StoreRequest extends FormRequest
                 return [
                     'name' => 'required|string',
                     'patent_number' => 'sometimes|string',
+                    'image' => 'sometimes',
                 ];
             }
             case 'PATCH' :
@@ -41,6 +43,7 @@ class StoreRequest extends FormRequest
                 return [
                     'name' => 'sometimes|string',
                     'patent_number' => 'sometimes|string',
+                    'image' => 'sometimes',
                 ];
             }
             default :

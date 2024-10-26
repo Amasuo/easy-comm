@@ -27,6 +27,7 @@ class DeliveryCompanyRequest extends FormRequest
                 return [
                     'name' => 'required|string|unique:delivery_companies',
                     'phone' => 'required|string|unique:delivery_companies',
+                    'image' => 'sometimes',
                 ];
             }
             case 'PUT' :
@@ -35,6 +36,7 @@ class DeliveryCompanyRequest extends FormRequest
                 return [
                     'name' => 'required|string',
                     'phone' => 'required|string',
+                    'image' => 'sometimes',
                 ];
             }
             case 'PATCH' :
@@ -42,6 +44,7 @@ class DeliveryCompanyRequest extends FormRequest
                 return [
                     'name' => 'sometimes|string',
                     'phone' => 'sometimes|string',
+                    'image' => 'sometimes',
                 ];
             }
             default :

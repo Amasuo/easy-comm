@@ -21,6 +21,9 @@ class DeliveryCompanyController extends Controller
         $item = new $this->class();
         $item->fill($input);
         $item->save();
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $item->addMediaFromRequest('image')->toMediaCollection('main');
+        }
         return $this->success(__('app.' . $this->translationName . '.created'), $item);
     }
 
@@ -41,6 +44,13 @@ class DeliveryCompanyController extends Controller
         }
         $item->fill($input);
         $item->save();
+        if ($request->hasFile('image')) {
+            $mediaItems = $item->getMedia("*");
+            foreach ($mediaItems as $mediaItem) {
+                $mediaItem->delete();
+            }
+            $item->addMediaFromRequest('image')->toMediaCollection('main');
+        }
         return $this->success(__('app.' . $this->translationName . '.updated'), $item);
     }
 }

@@ -8,13 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Order extends Model
+class Order extends Model implements HasMedia
 {
     use HasFactory;
     use SoftDeletes;
+    use InteractsWithMedia;
 
     protected $table = 'orders';
+
+    const SEARCHABLE = [
+        '',
+    ];
 
     protected $fillable = [
         'order_status_id',
@@ -35,6 +43,12 @@ class Order extends Model
         'created_at'
     ];
 
+    protected $appends = [
+        'fullname',
+        'price',
+        'num_items'
+    ];
+
     protected $with = [
         'order_status',
         'store',
@@ -47,6 +61,24 @@ class Order extends Model
     protected $casts = [
         'delivered_at' => 'datetime',
     ];
+
+    public function getFullnameAttribute(): string
+    {
+        return $this->firstname ? $this->firstname  . ' ' . $this->lastname : $this->lastname;
+    }
+
+    public function getPriceAttribute()
+    {
+        $price = 0;
+        foreach($this->product_variants as $productVariant) {
+            $price += $productVariant->price;
+        }
+        return $price;
+    }
+    public function getNumItemsAttribute()
+    {
+        return count($this->product_variants);
+    }
 
     public function order_status(): BelongsTo
     {
