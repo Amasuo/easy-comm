@@ -16,7 +16,7 @@ class ProductSeeder extends Seeder
         $colors = ['rouge', 'vert', 'bleu'];
         $sizes = ['S', 'M', 'L'];
         
-        $numProducts = 300;
+        $numProducts = 50;
 
         for ($i = 0; $i < $numProducts; $i++) {
             $product = Product::factory()->create();

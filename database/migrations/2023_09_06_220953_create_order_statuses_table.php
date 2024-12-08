@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('order_statuses', function (Blueprint $table) {
             $table->id();
             $table->string('value');
+            $table->boolean('is_filterable')->default(false);
+            $table->string('icon')->nullable();
             $table->timestamps();
         });
     }

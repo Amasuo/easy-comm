@@ -13,7 +13,7 @@ class OrderSeeder extends Seeder
 {
     public function run(): void
     {
-        $numOrders = 1500;
+        $numOrders = 100;
 
         for ($i = 0; $i < $numOrders; $i++) {
             $createdAt = now()->subDays(rand(0, 365));

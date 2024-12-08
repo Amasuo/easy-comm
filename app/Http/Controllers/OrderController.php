@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Enums\HTTPHeader;
+use App\Http\Requests\OrderBulkUpdateRequest;
 use App\Http\Requests\OrderRequest;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\OrderStatus;
 use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -27,6 +29,16 @@ class OrderController extends Controller
         $data = $this->class::query();
         if (!$user->isAdmin()) {
             $data = $data->where('store_id', $user->store->id);
+        }
+
+        $searchQuery = $request->query('search');
+        $customerSearchableAttributes = Customer::SEARCHABLE;
+        if ($searchQuery && $customerSearchableAttributes) {
+            $data = $data->whereHas('customer', function ($q) use ($searchQuery, $customerSearchableAttributes) {
+                foreach ($customerSearchableAttributes as $searchableAttribute) {
+                    $q->orWhere($searchableAttribute, 'like', '%' . $searchQuery . '%');
+                }
+            });
         }
 
         $filter = $request->query('filter');
@@ -143,5 +155,28 @@ class OrderController extends Controller
         $customer->save();
 
         return $this->success(__('app.' . $this->translationName . '.updated'), $item);
+    }
+
+    public function bulkUpdate(OrderBulkUpdateRequest $request)
+    {
+        $user = auth()->user();
+        $input = $request->validated();
+        $ordersIds = $input['orders_ids'];
+        $ordersStatusId = $input['order_status_id'];
+    
+        OrderStatus::findOrFail($ordersStatusId);
+
+        $orders = Order::whereIn('id', $ordersIds)->get();
+        foreach($orders as $order) {
+            if (!$user->isAdmin() && !in_array($order->store_id, $user->getRelatedStoresQuery()->pluck('id')->toArray())) {
+                abort(HTTPHeader::FORBIDDEN, __('unauthorized'));
+            }
+        }
+
+        Order::whereIn('id', $ordersIds)->update([
+            'order_status_id' => $ordersStatusId
+        ]);
+
+        return $this->success(__('app.' . $this->translationName . '.bulk-updated'));
     }
 }

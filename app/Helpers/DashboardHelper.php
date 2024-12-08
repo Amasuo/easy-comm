@@ -297,9 +297,13 @@ class DashboardHelper
 
         $res = [];
         foreach($weeklyValues as $weeklyValue) {
+            $firstDate = new \DateTime();
+            $lastDate = new \DateTime();
+            $firstDate->setISODate($weeklyValue->year, $weeklyValue->week, 1);
+            $lastDate->setISODate($weeklyValue->year, $weeklyValue->week, 7);
             $temp = new \stdClass();
             $temp->year = $weeklyValue->year;
-            $temp->week = $weeklyValue->week;
+            $temp->week = $firstDate->format('d.m') . '-' . $lastDate->format('d.m');
             $temp->value = $weeklyValue->weekly_sales / 10;
             $res[] = $temp;
         }
@@ -313,9 +317,13 @@ class DashboardHelper
 
         $res = [];
         foreach($weeklyValues as $weeklyValue) {
+            $firstDate = new \DateTime();
+            $lastDate = new \DateTime();
+            $firstDate->setISODate($weeklyValue->year, $weeklyValue->week, 1);
+            $lastDate->setISODate($weeklyValue->year, $weeklyValue->week, 7);
             $temp = new \stdClass();
             $temp->year = $weeklyValue->year;
-            $temp->week = $weeklyValue->week;
+            $temp->week = $firstDate->format('d.m') . '-' . $lastDate->format('d.m');
             $temp->value = $weeklyValue->weekly_costs / 10;
             $res[] = $temp;
         }
@@ -329,9 +337,13 @@ class DashboardHelper
 
         $res = [];
         foreach($weeklyValues as $weeklyValue) {
+            $firstDate = new \DateTime();
+            $lastDate = new \DateTime();
+            $firstDate->setISODate($weeklyValue->year, $weeklyValue->week, 1);
+            $lastDate->setISODate($weeklyValue->year, $weeklyValue->week, 7);
             $temp = new \stdClass();
             $temp->year = $weeklyValue->year;
-            $temp->week = $weeklyValue->week;
+            $temp->week = $firstDate->format('d.m') . '-' . $lastDate->format('d.m');
             $temp->value = $weeklyValue->weekly_profit / 10;
             $res[] = $temp;
         }
@@ -396,9 +408,12 @@ class DashboardHelper
         return NumberHumanizer::metricSuffix($temp->total_profit / 10);
     }
 
-    public static function test($storeId)
+    public static function getDailyOrdersForStoreId($storeId)
     {
-        $res = DB::select("
+        $startDate = Carbon::today();
+        $startDate = $startDate->subDays(value: 120)->format('Y-m-d');
+
+        $data = DB::select("
         SELECT
             DATE(created_at) AS order_date,
             COUNT(*) AS num_orders
@@ -406,13 +421,21 @@ class DashboardHelper
             orders
         WHERE
             store_id = '$storeId'
-            AND created_at >= '2024-01-01' -- Parameter 2/2
+            AND created_at >= '$startDate'
         GROUP BY
             order_date
         ORDER BY
             order_date;
         ");
 
-        return $res[0];
+        $res = [];
+        foreach ($data as $item) {
+            $temp = new \stdClass();
+            $temp->order_date = Carbon::createFromFormat('Y-m-d', $item->order_date)->format('d.m');
+            $temp->num_orders = $item->num_orders;
+            $res[] = $temp;
+        }
+
+        return $res;
     }
 }

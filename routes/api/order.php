@@ -9,6 +9,9 @@ Route::get('', [OrderController::class, 'getAll'])
 
 Route::post('', [OrderController::class, 'store'])
     ->name('app.order.create');
+
+Route::match(['put', 'patch'],'', [OrderController::class, 'bulkUpdate'])
+    ->name('app.order.bulk-update');
     
 Route::middleware(["check-user-order-related"])->group(function () {
     Route::get('/{id}', [OrderController::class, 'getItem'])

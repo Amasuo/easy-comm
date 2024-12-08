@@ -40,7 +40,7 @@ class DashboardController extends Controller
             $res->total_sales = DashboardHelper::getTotalSalesForStoreId($user->store->id);
             $res->total_costs = DashboardHelper::getTotalCostsForStoreId($user->store->id);
             $res->total_profit = DashboardHelper::getTotalProfitForStoreId($user->store->id);
-            $res->test = DashboardHelper::test($user->store->id);
+            $res->daily_orders = DashboardHelper::getDailyOrdersForStoreId($user->store->id);
         }
         return $res;
     }
